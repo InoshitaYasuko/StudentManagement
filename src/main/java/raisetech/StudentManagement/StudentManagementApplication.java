@@ -15,6 +15,6 @@ public class StudentManagementApplication {
 	}
   @GetMapping("/welcome/{name}")
   public String saywelcome(@PathVariable String name) {
-    return "ようこそ、"+ name + "様！";
+    return "ようこそ、"+ name + "様！！";
   }
 }
