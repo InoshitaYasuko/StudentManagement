@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,4 +18,11 @@ public class StudentManagementApplication {
   private Map<String, Integer>getstudent(){
     return student;
   }
+  //POST=追加機能
+  @PostMapping
+  public String addstudent(@RequestParam String name, @RequestParam int age){
+    student.put(name,age);
+    return "追加しました：" + name + "(" + age + ")";
+  }
+
   }
