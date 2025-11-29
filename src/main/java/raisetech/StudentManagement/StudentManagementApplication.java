@@ -1,33 +1,20 @@
 package raisetech.StudentManagement;
 
+import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
 @RestController
+@RequestMapping("/student")
 public class StudentManagementApplication {
 
-  private String name = "Inoshita Yasuko";
-  private String age = "32";
-
-	public static void main(String[] args) {
-		SpringApplication.run(StudentManagementApplication.class, args);
-	}
-  @GetMapping("/studentInfo")
-  public String getstdentInfo() {
-    return name + " " + age + "歳";
+  //GET
+  private Map<String, Integer>getstudent(){
+    return student;
   }
-  @PostMapping("/studentInfo")
-  public void setstudentInfo(String name,String age) {
-    this.name = name;
-    this.age = age;
   }
-  @PostMapping("/studentName")
-  public void updatsStundentName(String nama){
-    this.name = nama;
-  }
-}
