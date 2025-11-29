@@ -7,7 +7,7 @@ plugins {
 
 group = 'raisetech'
 version = '0.0.1-SNAPSHOT'
-description = 'StudentManagementSyslent'
+description = 'StudentManagementSystem'
 
 java {
 	toolchain {
@@ -23,7 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
     //Apache commons lang：便利機能、ユーティリティ
-    implementation("org.apache.commons:commons-lang3:3.19.0")
+    implementation 'org.apache.commons:commons-lang3:3.19.0'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

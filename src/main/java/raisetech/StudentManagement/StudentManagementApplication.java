@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+@SpringBootApplication
 
 @RestController
 @RequestMapping("/student")
 public class StudentManagementApplication {
 
+  public static void main(String[] args){
+    SpringApplication.run(StudentManagementApplication.class, args);
+  }
   private Map<String, Integer> student = new HashMap<>();
 
   //GET=取得
