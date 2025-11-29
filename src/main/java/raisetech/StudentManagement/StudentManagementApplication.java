@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 
 @RestController
-@RequestMapping("/student")
+//@RequestMapping("/student")
 public class StudentManagementApplication {
 
   public static void main(String[] args){
@@ -23,18 +23,18 @@ public class StudentManagementApplication {
   private Map<String, Integer> student = new HashMap<>();
 
   //GET=取得
-  @GetMapping
-  private Map<String, Integer>getstudent(){
+  @GetMapping("/student")
+  private Map<String, Integer> getstudent(){
     return student;
   }
   //POST=追加機能
-  @PostMapping
+  @PostMapping("/student")
   public String addstudent(@RequestParam String name, @RequestParam int age){
     student.put(name,age);
     return "追加しました：" + name + "(" + age + ")";
   }
 //PUT=更新機能
-  @PutMapping
+  @PutMapping("/student")
   public String updatestudent(@RequestParam String name, @RequestParam int age){
     if (student.containsKey(name)){
       student.put(name,age);
