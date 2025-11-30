@@ -2,6 +2,7 @@ package raisetech.StudentManagement;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,36 +12,32 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-@SpringBootApplication
 
+@SpringBootApplication
 @RestController
-//@RequestMapping("/student")
 public class StudentManagementApplication {
+
+  @Autowired
+  private StudentRepository repository;
+
+  private String name = "Inoshita Yasuko";
+  private String age = "32";
 
   public static void main(String[] args){
     SpringApplication.run(StudentManagementApplication.class, args);
   }
-  private Map<String, Integer> student = new HashMap<>();
-
-  //GET=取得
-  @GetMapping("/student")
-  private Map<String, Integer> getstudent(){
-    return student;
+  @GetMapping("/studentInfo")
+  public String getstdentInfo() {
+    Student student = repository.searchByName("Utiharyou");
+    return student.getName() + " " + student.getAge() + "歳";
   }
-  //POST=追加機能
-  @PostMapping("/student")
-  public String addstudent(@RequestParam String name, @RequestParam int age){
-    student.put(name,age);
-    return "追加しました：" + name + "(" + age + ")";
+  @PostMapping("/studentInfo")
+  public void setstudentInfo(String name,String age) {
+    this.name = name;
+    this.age = age;
   }
-//PUT=更新機能
-  @PutMapping("/student")
-  public String updatestudent(@RequestParam String name, @RequestParam int age){
-    if (student.containsKey(name)){
-      student.put(name,age);
-      return "更新しました：" + name + "(" + age + ")";
-    }else {
-      return "データがありません：" + name;
-    }
+  @PostMapping("/studentName")
+  public void updatsStundentName(String nama) {
+    this.name = nama;
   }
   }
