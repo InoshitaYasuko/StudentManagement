@@ -35,4 +35,7 @@ public class StudentManagementApplication {
   public void registerstudent(String name,int age) {
     repository.registerStudent(name, age);
   }
+  @PatchMapping("/student")
+  public void updatsStundent(String name, int age) {
+    repository.updateStudent(name, age);
 }
