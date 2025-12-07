@@ -26,19 +26,27 @@ public class StudentManagementApplication {
     SpringApplication.run(StudentManagementApplication.class, args);
 
   }
+
   @GetMapping("/student")
   public String getstdent(@RequestParam("name") String name) {
     Student student = repository.searchByName(name);
     return student.getName() + " " + student.getAge() + "歳";
   }
+
   @PostMapping("/student")
   public void registerstudent(String name, int age) {
     repository.registerStudent(name, age);
   }
+
   @PatchMapping("/student")
   public void updatsStundent(String name, int age) {
     repository.updateStudent(name, age);
   }
+  @PatchMapping("/student/name")
+  public void updatsStundent(@RequestParam String oldName,
+                             @RequestParam String newName){
+    repository.updateStudent(oldName, newName);
+}
   @DeleteMapping("/student")
   public void deleteStudent(String name) {
     repository.deleteStudent(name);

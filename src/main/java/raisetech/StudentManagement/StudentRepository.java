@@ -3,6 +3,7 @@ package raisetech.StudentManagement;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -17,6 +18,10 @@ public interface StudentRepository {
 
   @Update("UPDATE student SET age = #{age} WHERE name = #{name}")
   void updateStudent(String name, int age);
+
+  @Update("UPDATE student SET name = #{newname} WHERE namw = #{oldname}")
+  void updateStudent(@Param("oldName") String oldName
+                     @Param("newName") String newName);
 
   @Delete("DELETE FROM student WHERE name = #{name}")
   void deleteStudent(String name);
