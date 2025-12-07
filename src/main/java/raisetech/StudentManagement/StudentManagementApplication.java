@@ -31,4 +31,8 @@ public class StudentManagementApplication {
     Student student = repository.searchByName(name);
     return student.getName() + " " + student.getAge() + "歳";
   }
+  @PostMapping("/student")
+  public void registerstudent(String name,int age) {
+    repository.registerStudent(name, age);
+  }
 }
