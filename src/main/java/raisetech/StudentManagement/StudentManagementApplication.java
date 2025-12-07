@@ -26,4 +26,9 @@ public class StudentManagementApplication {
     SpringApplication.run(StudentManagementApplication.class, args);
 
   }
+  @GetMapping("/student")
+  public String getstdent(@RequestParam("name")String name) {
+    Student student = repository.searchByName(name);
+    return student.getName() + " " + student.getAge() + "歳";
+  }
 }

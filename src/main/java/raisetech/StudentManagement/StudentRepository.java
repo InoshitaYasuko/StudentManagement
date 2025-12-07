@@ -9,4 +9,6 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface StudentRepository {
 
+  @Select("SELECT * FROM student WHERE name = #{name}")
+  Student searchByName(String name);
 }
