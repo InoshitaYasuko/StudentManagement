@@ -1,6 +1,7 @@
 package raisetech.StudentManagement;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +25,6 @@ public class StudentManagementApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(StudentManagementApplication.class, args);
-
   }
 
   @GetMapping("/student")
@@ -45,7 +45,7 @@ public class StudentManagementApplication {
   @PatchMapping("/student/name")
   public void updateName(@RequestParam String oldname,
       @RequestParam String newname) {
-    repository.updateStudent(oldname, newname);
+    repository.updateName(oldname, newname);
   }
 
   @DeleteMapping("/student")
