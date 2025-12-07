@@ -15,13 +15,14 @@ public interface StudentRepository {
 
   @Insert("INSERT student values(#{name}, #{age})")
   void registerStudent(String name, int age);
+//  @Update("UPDATE student SET age = #{age} WHERE name = #{name}")
+//  void updateStudent(String name, int age);
+  @Update("UPDATE student SET name = #{newName} WHERE name = #{oldName}")
+  void updateStudent(String oldname, String newname);
 
-  @Update("UPDATE student SET age = #{age} WHERE name = #{name}")
-  void updateStudent(String name, int age);
-
-  @Update("UPDATE student SET name = #{newname} WHERE namw = #{oldname}")
-  void updateStudent(@Param("oldName") String oldName
-                     @Param("newName") String newName);
+  @Update("UPDATE student SET name = #{newName} WHERE name = #{oldName}")
+  void updateName(@Param("oldName") String oldname,
+                  @Param("newName") String newname);
 
   @Delete("DELETE FROM student WHERE name = #{name}")
   void deleteStudent(String name);

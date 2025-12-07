@@ -38,15 +38,16 @@ public class StudentManagementApplication {
     repository.registerStudent(name, age);
   }
 
-  @PatchMapping("/student")
-  public void updatsStundent(String name, int age) {
-    repository.updateStudent(name, age);
-  }
+//  @PatchMapping("/student")
+//  public void updatsStundent(String name, int age) {
+//    repository.updateStudent(name, age);
+
   @PatchMapping("/student/name")
-  public void updatsStundent(@RequestParam String oldName,
-                             @RequestParam String newName){
-    repository.updateStudent(oldName, newName);
-}
+  public void updateName(@RequestParam String oldname,
+      @RequestParam String newname) {
+    repository.updateStudent(oldname, newname);
+  }
+
   @DeleteMapping("/student")
   public void deleteStudent(String name) {
     repository.deleteStudent(name);
