@@ -52,7 +52,7 @@ public class StudentManagementApplication {
   public void deleteStudent(String name) {
     repository.deleteStudent(name);
   }
-  @GetMapping("/student")
+  @GetMapping("/students")
   public List<Student> getStudents(){
     return repository.findAll();
   }
