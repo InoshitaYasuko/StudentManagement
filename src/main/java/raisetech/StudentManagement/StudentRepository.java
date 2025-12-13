@@ -29,8 +29,6 @@ public interface StudentRepository {
   void deleteStudent(String name);
 
   @Mapper
-  public interface StudentRepository{
     @Select("SELECT name, age FROM student")
-    list<student> findAll();
+    List<Student> findAll();
   }
-}
