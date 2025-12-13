@@ -27,4 +27,10 @@ public interface StudentRepository {
 
   @Delete("DELETE FROM student WHERE name = #{name}")
   void deleteStudent(String name);
+
+  @Mapper
+  public interface StudentRepository{
+    @Select("SELECT name, age FROM student")
+    list<student> findAll();
+  }
 }
