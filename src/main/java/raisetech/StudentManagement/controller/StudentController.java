@@ -50,6 +50,7 @@ public class StudentController {
    StudentDetail detail = new StudentDetail();
    detail.setStudent(new Student());
    List<StudentCourse> courses = new ArrayList<>();
+   courses.add(new StudentCourse());
    detail.setStudentCourse(courses);
    model.addAttribute("studentDetail", detail);
    return "registerStudent";

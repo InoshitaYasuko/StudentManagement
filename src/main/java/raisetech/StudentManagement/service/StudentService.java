@@ -30,6 +30,8 @@ public class StudentService {
   @Transactional
   public void registerStudent(StudentDetail studentDetail) {
     repository.insertStudent(studentDetail.getStudent());
-    repository.insertStudentCourse(studentDetail.getStudentCourse());
+    for (StudentCourse course : studentDetail.getStudentCourse()) {
+      repository.insertStudentCourse(course);
+    }
   }
 }
