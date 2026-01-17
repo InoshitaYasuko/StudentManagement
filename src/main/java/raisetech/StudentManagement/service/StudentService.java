@@ -3,8 +3,10 @@ package raisetech.StudentManagement.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 @Service
@@ -21,4 +23,9 @@ public class StudentService {
   public List<StudentCourse> searchStudentCourseList() {
     return repository.searchCourse();
   }
+}
+@Transactional
+public void regisyterStudent(StudentDetail studentDetail){
+  repository.insertStudebt(studentDetail.getStudent());
+
 }
