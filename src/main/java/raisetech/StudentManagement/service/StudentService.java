@@ -26,6 +26,6 @@ public class StudentService {
 }
 @Transactional
 public void regisyterStudent(StudentDetail studentDetail){
-  repository.insertStudebt(studentDetail.getStudent());
-
+  repository.insertStudent(studentDetail.getStudent());
+  repository.insertStudentCourse(studentDetail,getClass());
 }
