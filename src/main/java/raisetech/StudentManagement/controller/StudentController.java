@@ -52,6 +52,9 @@ public class StudentController {
 
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if (result.hasErrors()){
+      return "registerStudent";
+    }
     return "";
 
   }
