@@ -49,6 +49,8 @@ public class StudentController {
   public String newStudent(Model model) {
    StudentDetail detail = new StudentDetail();
    detail.setStudent(new Student());
+   List<StudentCourse> courses = new ArrayList<>();
+   detail.setStudentCourse(courses);
    model.addAttribute("studentDetail", detail);
    return "registerStudent";
   }

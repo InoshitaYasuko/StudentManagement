@@ -12,7 +12,11 @@
     <input type="text" id="name" th:field="*{student.fullName}" required />
   </div>
   <div>
-    <button type="stbmit">登録</button>
+    <label>コース名</label>
+    <input type="text" th:field="*{studentCourse[0].courseName}" required />
+  </div>
+  <div>
+    <button type="submit">登録</button>
   </div>
 </form>
 </body>

@@ -13,19 +13,23 @@ import raisetech.StudentManagement.repository.StudentRepository;
 public class StudentService {
 
   private StudentRepository repository;
+
   @Autowired
   public StudentService(StudentRepository repository) {
     this.repository = repository;
   }
-  public List<Student> searchStudentList(){
+
+  public List<Student> searchStudentList() {
     return repository.search();
   }
+
   public List<StudentCourse> searchStudentCourseList() {
     return repository.searchCourse();
   }
-}
-@Transactional
-public void regisyterStudent(StudentDetail studentDetail){
-  repository.insertStudent(studentDetail.getStudent());
-  repository.insertStudentCourse(studentDetail,getClass());
+
+  @Transactional
+  public void registerStudent(StudentDetail studentDetail) {
+    repository.insertStudent(studentDetail.getStudent());
+    repository.insertStudentCourse(studentDetail.getStudentCourse());
+  }
 }
