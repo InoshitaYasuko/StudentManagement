@@ -33,9 +33,8 @@ public class StudentService {
     repository.insertStudent(studentDetail.getStudent());
     // TODO:コース情報登録も行う。
     Integer studentId = studentDetail.getStudent().getId();
-    for (StudentCourse course : studentDetail.getStudentCourse()) {
-      course.setStudentId(studentId);
-      course.setStartDate(LocalDate.now());
+    for (StudentsCourse studentsCourse : studentDetail.getStudentCourse()) {
+      studentsCoourse.setStudentID
       repository.insertStudentCourse(course);
     }
   }

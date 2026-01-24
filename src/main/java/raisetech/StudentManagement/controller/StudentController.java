@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.naming.Binding;
@@ -49,9 +50,7 @@ public class StudentController {
   public String newStudent(Model model) {
    StudentDetail detail = new StudentDetail();
    detail.setStudent(new Student());
-   List<StudentCourse> courses = new ArrayList<>();
-   courses.add(new StudentCourse());
-   detail.setStudentCourse(courses);
+   detail.setStudentsCourses(Arrays.asList(new StudentCourse()));
    model.addAttribute("studentDetail", detail);
    return "registerStudent";
   }
