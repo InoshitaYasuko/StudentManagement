@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.naming.Binding;
@@ -42,17 +43,24 @@ public class StudentController {
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList() {
     return service.searchStudentCourseList();
+
   }
-}
+
   @GetMapping("/newStudent")
   public String newStudent(Model model) {
-    model.addAttribute("studentDetail", new StudentDetail());
-    return "registerStudent";
+   StudentDetail detail = new StudentDetail();
+   detail.setStudent(new Student());
+   detail.setStudentsCourses(Arrays.asList(new StudentCourse()));
+   model.addAttribute("studentDetail", detail);
+   return "registerStudent";
   }
 
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-    return "";
-
+    if (result.hasErrors()) {
+      return "registerStudent";
+    }
+    service.registerStudent(studentDetail);
+    return "redirect:/studentList";
   }
-
+}
