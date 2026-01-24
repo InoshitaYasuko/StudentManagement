@@ -31,6 +31,7 @@ public class StudentService {
   @Transactional
   public void registerStudent(StudentDetail studentDetail) {
     repository.insertStudent(studentDetail.getStudent());
+    // TODO:コース情報登録も行う。
     Integer studentId = studentDetail.getStudent().getId();
     for (StudentCourse course : studentDetail.getStudentCourse()) {
       course.setStudentId(studentId);
