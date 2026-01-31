@@ -43,16 +43,17 @@ public class StudentController {
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList() {
     return service.searchStudentCourseList();
-
   }
 
   @GetMapping("/newStudent")
   public String newStudent(Model model) {
-   StudentDetail detail = new StudentDetail();
-   detail.setStudent(new Student());
-   detail.setStudentsCourses(Arrays.asList(new StudentCourse()));
-   model.addAttribute("studentDetail", detail);
-   return "registerStudent";
+    StudentDetail detail = new StudentDetail();
+    detail.setStudent(new Student());
+    List<StudentCourse> courses = new ArrayList<>();
+    courses.add(new StudentCourse());
+    detail.setStudentCourse(courses);
+    model.addAttribute("studentDetail", detail);
+    return "registerStudent";
   }
 
   @PostMapping("/registerStudent")
