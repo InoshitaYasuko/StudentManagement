@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.conveter.StudentConverter;
@@ -54,6 +55,13 @@ public class StudentController {
     detail.setStudentCourse(courses);
     model.addAttribute("studentDetail", detail);
     return "registerStudent";
+  }
+
+  @GetMapping("/student/edit/{id}")
+  public String editStudent(@PathVariable int id, Model model) {
+    StudentDetail studentDetail = service.searchStudentDetailById(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
   }
 
   @PostMapping("/registerStudent")
