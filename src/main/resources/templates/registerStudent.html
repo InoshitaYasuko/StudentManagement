@@ -12,23 +12,23 @@
     <input type="text" id="name" th:field="*{student.fullName}" required />
   </div>
   <div>
-    <label for="name">フリガナ</label>
+    <label th:for="*{student.furigana}">フリガナ</label>
     <input type="text" th:field="*{student.furigana}" required />
   </div>
   <div>
-    <label for="name">ニックネーム</label>
+    <label th:for="*{student.nickname}">ニックネーム</label>
     <input type="text" th:field="*{student.nickname}" required />
   </div>
   <div>
-    <label for="name">メールアドレス</label>
+    <label th:for="*{student.email}">メールアドレス</label>
     <input type="text" th:field="*{student.email}" required />
   </div>
   <div>
-    <label for="name">地域</label>
+    <label th:for="*{student.city}">地域</label>
     <input type="text" th:field="*{student.city}" required />
   </div>
   <div>
-    <label for="name">年齢</label>
+    <label th:for="*{student.age}">年齢</label>
     <input type="text" th:field="*{student.age}" required />
   </div>
   <div>
@@ -40,7 +40,7 @@
     </select>
   </div>
   <div>
-    <label for="name">備考</label>
+    <label th:for="*{student.remark}">備考</label>
     <input type="text" th:field="*{student.remark}"></textarea>
   </div>
   <div>
