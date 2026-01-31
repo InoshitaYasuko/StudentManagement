@@ -28,8 +28,8 @@ public class StudentService {
   }
 
   public StudentDetail searchStudentDetailById(int id) {
-    Student student = repository.findStudebtById(id);
-    List<StudentCourse> courses = repository.findStudentCourseByStudentid(id);
+    Student student = repository.findStudentById(id);
+    List<StudentCourse> courses = repository.findStudentCourseByStudentId(id);
 
     StudentDetail detail = new StudentDetail();
     detail.setStudent(student);
