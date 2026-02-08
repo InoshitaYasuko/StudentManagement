@@ -59,6 +59,9 @@ public class StudentService {
   }
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
+    if (Boolean.TRUE.equals(studentDetail.getCancel())) {
+      return;
+    }
     repository.updateStudent(studentDetail.getStudent());
     for (StudentCourse course : studentDetail.getStudentCourse()) {
       course.setStudentId(studentDetail.getStudent().getId());
