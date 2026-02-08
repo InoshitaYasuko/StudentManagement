@@ -40,10 +40,11 @@ public class StudentController {
     modul.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
     return "studentList";
   }
-
-  @GetMapping("/studentCourseList")
-  public List<StudentCourse> getStudentCourseList() {
-    return service.searchStudentCourseList();
+  @GetMapping("/Student/{id}")
+  public String getStudent(@PathVariable String id,Model model) {
+    StudentDetail studentDetail = service.searchStudent(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
   }
 
   @GetMapping("/newStudent")
@@ -70,6 +71,15 @@ public class StudentController {
       return "registerStudent";
     }
     service.registerStudent(studentDetail);
+    return "redirect:/studentList";
+  }
+
+  @PostMapping("/updateStudent")
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if (result.hasErrors()) {
+      return "updateStudent";
+    }
+    service.updateStudent(studentDetail);
     return "redirect:/studentList";
   }
 }
