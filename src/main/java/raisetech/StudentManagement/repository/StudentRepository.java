@@ -69,7 +69,7 @@ public interface StudentRepository {
             UPDATE students_courses
             SET
             course_name = #{courseName}
-            WHERE id = #{id}
+            WHERE student_id = #{studentId}
       """)
   void updateStudentCourse(StudentCourse studentCourse);
 }

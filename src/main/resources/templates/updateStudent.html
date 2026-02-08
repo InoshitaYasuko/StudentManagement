@@ -2,6 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>受講生詳細</title>
+  <style>
+    .course-row{
+      display: flex;
+      gap: 20px;
+      align-items: ceuter;
+    }
+    .course-item{
+      display: flex;
+      flex-direction: center;
+  </style>
 </head>
 <body>
 
@@ -35,7 +45,7 @@
   </div>
   <div>
     <label>性別</label>
-    <select th:field="*{student.gender}" required />
+    <select th:field="*{student.gender}" required>
     <option value="回答しない">回答しない</option>
     <option value="男性">男性</option>
     <option value="女性">女性</option>
@@ -43,11 +53,17 @@
   </div>
   <div>
     <label th:for="*{student.remark}">備考</label>
-    <input type="text" th:field="*{student.remark}"></textarea>
+    <input type="text" th:field="*{student.remark}" />
   </div>
-  <div>
-    <label>コース名</label>
-    <input type="text" th:field="*{studentCourse[0].courseName}" required />
+  <div class="course-row">
+    <div class="course-item">
+      <label>受講コースID</label>
+      <input type="text" th:field="*{studentCourse[0].id}" />
+    </div>
+    <div class="course-item">
+      <label>受講コース名</label>
+      <input type="text" th:field="*{studentCourse[0].courseName}" required />
+    </div>
   </div>
   <div>
     <button type="submit">更新</button>
