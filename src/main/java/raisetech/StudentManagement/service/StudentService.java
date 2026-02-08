@@ -20,13 +20,21 @@ public class StudentService {
   public StudentService(StudentRepository repository) {
     this.repository = repository;
   }
-
   public List<Student> searchStudentList() {
     return repository.search();
   }
-
   public List<StudentCourse> searchStudentCourseList() {
     return repository.searchCourse();
+  }
+
+  public StudentDetail searchStudentDetailById(int id) {
+    Student student = repository.findStudentById(id);
+    List<StudentCourse> courses = repository.findStudentCourseByStudentId(id);
+
+    StudentDetail detail = new StudentDetail();
+    detail.setStudent(student);
+    detail.setStudentCourse(courses);
+    return detail;
   }
 
   @Transactional

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>受講生更新</title>
+</head>
+<body>
+
+<h1>受講生更新</h1>
+<form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
+  <input type="hidden" th:field="*{student.id}" />
+
+  <div>
+    <label for="name">名前</label>
+    <input type="text" id="name" th:field="*{student.fullName}" required />
+  </div>
+  <div>
+    <label th:for="*{student.furigana}">フリガナ</label>
+    <input type="text" th:field="*{student.furigana}" required />
+  </div>
+  <div>
+    <label th:for="*{student.nickname}">ニックネーム</label>
+    <input type="text" th:field="*{student.nickname}" required />
+  </div>
+  <div>
+    <label th:for="*{student.email}">メールアドレス</label>
+    <input type="text" th:field="*{student.email}" required />
+  </div>
+  <div>
+    <label th:for="*{student.city}">地域</label>
+    <input type="text" th:field="*{student.city}" required />
+  </div>
+  <div>
+    <label th:for="*{student.age}">年齢</label>
+    <input type="text" th:field="*{student.age}" required />
+  </div>
+  <div>
+    <label>性別</label>
+    <select th:field="*{student.gender}" required />
+    <option value="回答しない">回答しない</option>
+    <option value="男性">男性</option>
+    <option value="女性">女性</option>
+    </select>
+  </div>
+  <div>
+    <label th:for="*{student.remark}">備考</label>
+    <input type="text" th:field="*{student.remark}"></textarea>
+  </div>
+  <div>
+    <label>コース名</label>
+    <input type="text" th:field="*{studentCourse[0].courseName}" required />
+  </div>
+  <div>
+    <button type="submit">更新</button>
+  </div>
+</form>
+</body>
+</html>
