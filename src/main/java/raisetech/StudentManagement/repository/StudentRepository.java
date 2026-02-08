@@ -67,7 +67,7 @@ public interface StudentRepository {
 
   @Update("""
             UPDATE students_courses
-            SET\s
+            SET
             course_name = #{courseName}
             WHERE id = #{id}
       """)
