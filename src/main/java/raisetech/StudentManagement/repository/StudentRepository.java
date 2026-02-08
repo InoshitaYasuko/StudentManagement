@@ -31,7 +31,7 @@ public interface StudentRepository {
   @Select("SELECT * FROM students_courses")
   List<StudentCourse> searchCourseList();
 
-  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}id}")
+  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
   StudentCourse searchstudentcourse(String id);
 
   @Select("SELECT * FROM students WHERE id = #{id}")
@@ -40,19 +40,36 @@ public interface StudentRepository {
   @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
   List<StudentCourse> findStudentCourseByStudentId(int studentId);
 
-  @Insert("INSERT INTO students (full_name, furigana, nickname, email, city, age, gender, remark,is_deleted)"
-      + " VALUES (#{fullName}, #{furigana}, #{nickname}, #{email}, #{city}, #{age}, #{gender}, #{remark},#{isDeleted})")
-  @Options(useGeneratedKeys = true,keyProperty = "id")
+  @Insert(
+      "INSERT INTO students (full_name, furigana, nickname, email, city, age, gender, remark,is_deleted)"
+          + " VALUES (#{fullName}, #{furigana}, #{nickname}, #{email}, #{city}, #{age}, #{gender}, #{remark},#{isDeleted})")
+  @Options(useGeneratedKeys = true, keyProperty = "id")
   void insertStudent(Student student);
 
   @Insert("INSERT INTO students_courses (student_id,course_name,start_date,end_date)"
       + " VALUES (#{studentId},#{courseName},#{startDate},#{endDate})")
   void insertStudentCourse(StudentCourse studentCourse);
 
-  @Update("UPDATE students SET (full_name = #{fullName}, furigana = #{furigana}, nickname = #{nickname},"
-      + " email = #{email}, city = #{city}, age = #{age}, gender = #{gender}, remark = #{remark},is_deleted = #{isDeleted}) WHERE id = #{id}")
+  @Update("""
+      UPDATE students 
+      SET full_name = #{fullName},
+      furigana = #{furigana},
+      nickname = #{nickname},
+      email = #{email},
+      city = #{city},
+      age = #{age},
+      gender = #{gender},
+      remark = #{remark},
+      is_deleted = #{isDeleted}
+      WHERE id = #{id}
+      """)
   void updateStudent(Student student);
 
-  @Update("UPDATE students_courses SET (course_name = #{courseName})WHERE id = #{id}")
+  @Update("""
+            UPDATE students_courses
+            SET\s
+            course_name = #{courseName}
+            WHERE id = #{id}
+      """)
   void updateStudentCourse(StudentCourse studentCourse);
 }

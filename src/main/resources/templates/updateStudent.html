@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>受講生更新</title>
+  <title>受講生詳細</title>
 </head>
 <body>
 
-<h1>受講生更新</h1>
+<h1>受講生詳細</h1>
 <form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
   <input type="hidden" th:field="*{student.id}" />
 

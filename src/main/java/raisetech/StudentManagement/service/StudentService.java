@@ -30,7 +30,7 @@ public class StudentService {
 
   public StudentDetail searchStudent(String id) {
     Student student = repository.searchStudent(id);
-    List<StudentCourse> studentCourses = repository.(student.getId());
+    List<StudentCourse> studentCourses = repository.findStudentCourseByStudentId(student.getId());
     StudentDetail detail = new StudentDetail();
     detail.setStudent(student);
     detail.setStudentCourse(studentCourses);
