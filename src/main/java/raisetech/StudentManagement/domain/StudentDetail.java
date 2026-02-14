@@ -12,4 +12,12 @@ public class StudentDetail {
 
   private Student student;
   private List<StudentCourse> studentCourse;
+
+  private Boolean cancel;
+  public Boolean getCancel(){
+    return cancel;
+  }
+  public void setCancel(Boolean cancel){
+    this.cancel = cancel;
+  }
 }

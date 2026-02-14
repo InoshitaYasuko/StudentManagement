@@ -1,7 +1,6 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,22 @@ public class StudentService {
   public StudentService(StudentRepository repository) {
     this.repository = repository;
   }
+
   public List<Student> searchStudentList() {
     return repository.search();
   }
+
   public List<StudentCourse> searchStudentCourseList() {
-    return repository.searchCourse();
+    return repository.searchCourseList();
+  }
+
+  public StudentDetail searchStudent(String id) {
+    Student student = repository.searchStudent(id);
+    List<StudentCourse> studentCourses = repository.findStudentCourseByStudentId(student.getId());
+    StudentDetail detail = new StudentDetail();
+    detail.setStudent(student);
+    detail.setStudentCourse(studentCourses);
+    return detail;
   }
 
   public StudentDetail searchStudentDetailById(int id) {
@@ -45,6 +55,17 @@ public class StudentService {
       course.setStudentId(studentId);
       course.setStartDate(LocalDate.now());
       repository.insertStudentCourse(course);
+    }
+  }
+  @Transactional
+  public void updateStudent(StudentDetail studentDetail) {
+    if (Boolean.TRUE.equals(studentDetail.getCancel())) {
+      return;
+    }
+    repository.updateStudent(studentDetail.getStudent());
+    for (StudentCourse course : studentDetail.getStudentCourse()) {
+      course.setStudentId(studentDetail.getStudent().getId());
+      repository.updateStudentCourse(course);
     }
   }
 }
