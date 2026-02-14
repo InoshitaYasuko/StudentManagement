@@ -33,7 +33,7 @@
   </div>
   <div>
     <label>性別</label>
-    <select th:field="*{student.gender}" required />
+    <select th:field="*{student.gender}" required>
       <option value="回答しない">回答しない</option>
       <option value="男性">男性</option>
       <option value="女性">女性</option>
@@ -41,11 +41,12 @@
   </div>
   <div>
     <label th:for="*{student.remark}">備考</label>
-    <input type="text" th:field="*{student.remark}"></textarea>
+    <input type="text" th:field="*{student.remark}"/>
   </div>
   <div>
-    <label th:for="*{studentDetail.student.isDeleted}">キャンセル</label>
-    <input type="checkbox" th:isDeleted="*{studentDetail.student.isDeleted}"/>
+    <label th:for="isDeleted">キャンセル</label>
+    <input type="checkbox" id="isDeleted"
+           th:field="*{student.isDeleted}" />
   </div>
   <div>
     <label>コース名</label>
