@@ -44,6 +44,10 @@
     <input type="text" th:field="*{student.remark}"></textarea>
   </div>
   <div>
+    <label th:for="*{studentDetail.student.isDeleted}">キャンセル</label>
+    <input type="checkbox" th:isDeleted="*{studentDetail.student.isDeleted}"/>
+  </div>
+  <div>
     <label>コース名</label>
     <input type="text" th:field="*{studentCourse[0].courseName}" required />
   </div>
