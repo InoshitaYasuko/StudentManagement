@@ -20,7 +20,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
-@Controller
+@RestController
 public class StudentController {
 
   private StudentService service;
@@ -33,12 +33,10 @@ public class StudentController {
   }
 
   @GetMapping("/studentList")
-  public String getStudentList(Model modul) {
+  public List <StudentDetail> getStudentList() {
     List<Student> students = service.searchStudentList();
     List<StudentCourse> studentCourses = service.searchStudentCourseList();
-
-    modul.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
-    return "studentList";
+    return converter.convertStudentDetails(students, studentCourses);
   }
   @GetMapping("/Student/{id}")
   public String getStudent(@PathVariable String id,Model model) {
