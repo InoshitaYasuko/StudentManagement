@@ -58,18 +58,15 @@ public class StudentController {
     return "registerStudent";
   }
 
-  @GetMapping("/student/edit/{id}")
-  public String editStudent(@PathVariable int id, Model model) {
-    StudentDetail studentDetail = service.searchStudentDetailById(id);
-    model.addAttribute("studentDetail", studentDetail);
-    return "updateStudent";
+  @GetMapping("/student/{id}")
+  public StudentDetail getStudent(@PathVariable String id){
+    return service.searchStudent(id);
   }
 
   @PostMapping("/registerStudent")
-  public ResponseEntity<String> registerStudent(
-      @RequestBody StudentDetail studentDetail) {
-    service.registerStudent(studentDetail);
-    return ResponseEntity.ok("登録が完了しました。");
+  public ResponseEntity<StudentDetail> registerStudent(@RequestBody StudentDetail studentDetail) {
+    StudentDetail responseStuduntDetail = service.registerStudent(studentDetail);
+    return ResponseEntity.ok(responseStuduntDetail);
   }
 
   @PostMapping("/updateStudent")

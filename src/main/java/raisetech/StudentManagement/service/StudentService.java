@@ -48,7 +48,7 @@ public class StudentService {
   }
 
   @Transactional
-  public void registerStudent(StudentDetail studentDetail) {
+  public StudentDetail registerStudent(StudentDetail studentDetail) {
     repository.insertStudent(studentDetail.getStudent());
     Integer studentId = studentDetail.getStudent().getId();
     for (StudentCourse course : studentDetail.getStudentCourse()) {
@@ -56,7 +56,9 @@ public class StudentService {
       course.setStartDate(LocalDate.now());
       repository.insertStudentCourse(course);
     }
+    return studentDetail;
   }
+
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
     if (Boolean.TRUE.equals(studentDetail.getCancel())) {
