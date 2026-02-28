@@ -47,17 +47,6 @@ public class StudentController {
     return "updateStudent";
   }
 
-  @GetMapping("/newStudent")
-  public String newStudent(Model model) {
-    StudentDetail detail = new StudentDetail();
-    detail.setStudent(new Student());
-    List<StudentCourse> courses = new ArrayList<>();
-    courses.add(new StudentCourse());
-    detail.setStudentCourse(courses);
-    model.addAttribute("studentDetail", detail);
-    return "registerStudent";
-  }
-
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(@PathVariable String id){
     return service.searchStudent(id);
