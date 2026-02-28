@@ -58,6 +58,13 @@ public class StudentController {
     return "registerStudent";
   }
 
+  @GetMapping("/student/edit/{id}")
+  public String editStudent(@PathVariable int id, Model model) {
+    StudentDetail studentDetail = service.searchStudentDetailById(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
+  }
+
   @PostMapping("/registerStudent")
   public ResponseEntity<String> registerStudent(
       @RequestBody StudentDetail studentDetail) {
