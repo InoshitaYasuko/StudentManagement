@@ -8,9 +8,20 @@ import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 
+/**
+ * Serviceから取得したオブジェクトをControllerにとって必要な形に変換するコンバーターです。
+ */
 @Component
 public class StudentConverter {
 
+  /**
+   * 受講生に紐づく受講生コース情報をマッピングする。
+   * 受講生コース情報は受講生に対して複数存在するのでループを回して受講生詳細情報を組み立てる。
+   *
+   * @param students　受講生一覧
+   * @param studentCourses　受講生コース情報のリスト
+   * @return　受講生詳細情報のリスト
+   */
   public List<StudentDetail> convertStudentDetails(List<Student> students,
       List<StudentCourse> studentCourses) {
     List<StudentDetail> studentDetails = new ArrayList<>();
