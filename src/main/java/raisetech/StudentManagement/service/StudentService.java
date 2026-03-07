@@ -86,15 +86,21 @@ public class StudentService {
     course.setEndDate(LocalDate.now().plusYears(1));
   }
 
+  /***
+   * 受講生詳細の更新を行います。
+   * 受講生と受講生コース情報をそれぞれ更新します。
+   *
+   * @param studentDetail　受講生詳細
+   */
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
     if (Boolean.TRUE.equals(studentDetail.getCancel())) {
       return;
     }
     repository.updateStudent(studentDetail.getStudent());
-    for (StudentCourse course : studentDetail.getStudentCourseList()) {
+    studentDetail.getStudentCourseList().forEach(course -> {
       course.setStudentId(studentDetail.getStudent().getId());
       repository.updateStudentCourse(course);
-    }
+    });
   }
 }

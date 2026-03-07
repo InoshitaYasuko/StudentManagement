@@ -77,6 +77,11 @@ public interface StudentRepository {
       + " VALUES (#{studentId},#{courseName},#{startDate},#{endDate})")
   void insertStudentCourse(StudentCourse studentCourse);
 
+  /***
+   * 受講生を更新します。
+   *
+   * @param student　受講生
+   */
   @Update("""
       UPDATE students 
       SET full_name = #{fullName},
@@ -92,6 +97,11 @@ public interface StudentRepository {
       """)
   void updateStudent(Student student);
 
+  /***
+   * 受講生コース情報のコース名を更新します。
+   *
+   * @param studentCourse　受講生コース情報
+   */
   @Update("""
             UPDATE students_courses
             SET
