@@ -29,12 +29,10 @@ import raisetech.StudentManagement.service.StudentService;
 public class StudentController {
 
   private StudentService service;
-  private StudentConverter converter;
 
   @Autowired
-  public StudentController(StudentService service, StudentConverter converter) {
+  public StudentController(StudentService service) {
     this.service = service;
-    this.converter = converter;
   }
 
   /**
@@ -45,9 +43,7 @@ public class StudentController {
    */
   @GetMapping("/studentList")
   public List <StudentDetail> getStudentList() {
-    List<Student> students = service.searchStudentList();
-    List<StudentCourse> studentCourses = service.searchStudentCourseList();
-    return converter.convertStudentDetails(students, studentCourses);
+    return service.searchStudentList();
   }
 
   /**
