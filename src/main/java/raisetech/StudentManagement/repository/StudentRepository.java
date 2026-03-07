@@ -47,7 +47,7 @@ public interface StudentRepository {
    * @return 受講生IDに紐づく受講生コース情報
    */
   @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
-  StudentCourse searchstudentcourse(String id);
+  StudentCourse searchStudentCourse(String id);
 
   @Select("SELECT * FROM students WHERE id = #{id}")
   Student findStudentById(int id);
@@ -55,12 +55,24 @@ public interface StudentRepository {
   @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
   List<StudentCourse> findStudentCourseByStudentId(int studentId);
 
+  /***
+   * 受講生を新規登録します。
+   * IDに関しては自動採番を行う。
+   *
+   * @param student　受講生
+   */
   @Insert(
       "INSERT INTO students (full_name, furigana, nickname, email, city, age, gender, remark,is_deleted)"
           + " VALUES (#{fullName}, #{furigana}, #{nickname}, #{email}, #{city}, #{age}, #{gender}, #{remark},#{isDeleted})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void insertStudent(Student student);
 
+  /***
+   * 受講生コース情報を新規登録します。
+   * IDに関しては自動採番を行う。
+   *
+   * @param studentCourse 受講生コース情報
+   */
   @Insert("INSERT INTO students_courses (student_id,course_name,start_date,end_date)"
       + " VALUES (#{studentId},#{courseName},#{startDate},#{endDate})")
   void insertStudentCourse(StudentCourse studentCourse);
