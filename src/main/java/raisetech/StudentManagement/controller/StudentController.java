@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.naming.Binding;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.conveter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
@@ -20,7 +22,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
-@Controller
+@RestController
 public class StudentController {
 
   private StudentService service;
@@ -33,12 +35,10 @@ public class StudentController {
   }
 
   @GetMapping("/studentList")
-  public String getStudentList(Model modul) {
+  public List <StudentDetail> getStudentList() {
     List<Student> students = service.searchStudentList();
     List<StudentCourse> studentCourses = service.searchStudentCourseList();
-
-    modul.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
-    return "studentList";
+    return converter.convertStudentDetails(students, studentCourses);
   }
   @GetMapping("/Student/{id}")
   public String getStudent(@PathVariable String id,Model model) {
@@ -58,28 +58,16 @@ public class StudentController {
     return "registerStudent";
   }
 
-  @GetMapping("/student/edit/{id}")
-  public String editStudent(@PathVariable int id, Model model) {
-    StudentDetail studentDetail = service.searchStudentDetailById(id);
-    model.addAttribute("studentDetail", studentDetail);
-    return "updateStudent";
-  }
-
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-    if (result.hasErrors()) {
-      return "registerStudent";
-    }
+  public ResponseEntity<String> registerStudent(
+      @RequestBody StudentDetail studentDetail) {
     service.registerStudent(studentDetail);
-    return "redirect:/studentList";
+    return ResponseEntity.ok("登録が完了しました。");
   }
 
   @PostMapping("/updateStudent")
-  public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-    if (result.hasErrors()) {
-      return "updateStudent";
-    }
+  public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
-    return "redirect:/studentList";
+    return ResponseEntity.ok("更新処理が成功しました。");
   }
 }
