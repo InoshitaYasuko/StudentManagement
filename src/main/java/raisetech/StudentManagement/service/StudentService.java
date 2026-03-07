@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,11 @@ public class StudentService {
   }
 
   /**
-   * 受講生検索です。
+   * 受講生詳細の検索です。
    * IDに紐づく受講生情報を取得した後、その受講生に紐づく受講生コース情報を取得して設定します。
    *
    * @param id　受講生ID
-   * @return 受講生
+   * @return 受講生詳細
    */
   public StudentDetail searchStudent(String id) {
     return searchStudentDetailById(Integer.parseInt(id));
@@ -55,16 +56,35 @@ public class StudentService {
     return new StudentDetail(student, courses, false);
   }
 
+  /***
+   * 受講生詳細の登録を行います。
+   * 受講生と受講生コース情報を個別に登録し、受講生コース情報には受講生情報を紐づける値やコース開始日、コース終了日を設定します。
+   *
+   * @param studentDetail　受講生詳細
+   * @return　登録情報を付与した受講生詳細
+   */
   @Transactional
   public StudentDetail registerStudent(StudentDetail studentDetail) {
-    repository.insertStudent(studentDetail.getStudent());
-    Integer studentId = studentDetail.getStudent().getId();
-    for (StudentCourse course : studentDetail.getStudentCourse()) {
-      course.setStudentId(studentId);
-      course.setStartDate(LocalDate.now());
+    Student student = studentDetail.getStudent();
+    repository.insertStudent(student);
+    Integer studentId = student.getId();
+    studentDetail.getStudentCourse().forEach(course -> {
+      initStudentsCourse(course, studentId);
       repository.insertStudentCourse(course);
-    }
+    });
     return studentDetail;
+  }
+
+  /***
+   * 受講生コース情報を登録する際の初期情報を設定する。
+   *
+   * @param course　受講生コース情報
+   * @param studentId　受講生
+   */
+  private void initStudentsCourse(StudentCourse course, Integer studentId) {
+    course.setStudentId(studentId);
+    course.setStartDate(LocalDate.now());
+    course.setEndDate(LocalDate.now().plusYears(1));
   }
 
   @Transactional
