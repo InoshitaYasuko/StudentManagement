@@ -47,19 +47,12 @@ public class StudentService {
    * @return 受講生
    */
   public StudentDetail searchStudent(String id) {
-    Student student = repository.searchStudent(id);
-    List<StudentCourse> studentCourses = repository.findStudentCourseByStudentId(student.getId());
-    return new StudentDetail(student, studentCourses);;
+    return searchStudentDetailById(Integer.parseInt(id));
   }
-
   public StudentDetail searchStudentDetailById(int id) {
     Student student = repository.findStudentById(id);
     List<StudentCourse> courses = repository.findStudentCourseByStudentId(id);
-
-    StudentDetail detail = new StudentDetail();
-    detail.setStudent(student);
-    detail.setStudentCourse(courses);
-    return detail;
+    return new StudentDetail(student, courses, false);
   }
 
   @Transactional
