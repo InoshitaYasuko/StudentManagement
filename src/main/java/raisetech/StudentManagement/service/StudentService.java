@@ -10,6 +10,10 @@ import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
+/**
+ * 受講生情報を取り扱うサービスです。
+ * 受講生の検索や登録・更新処理を行います。
+ */
 @Service
 public class StudentService {
 
@@ -20,14 +24,32 @@ public class StudentService {
     this.repository = repository;
   }
 
+  /**
+   * 受講生一覧検索です。
+   * 全件検索を行うので、条件指定は行わないものになります。
+   *
+   * @return 受講生一覧(全件)
+   */
   public List<Student> searchStudentList() {
     return repository.search();
   }
 
+  /**
+   * 受講コース検索です
+   *
+   * @return 受講コース検索
+   */
   public List<StudentCourse> searchStudentCourseList() {
     return repository.searchCourseList();
   }
 
+  /**
+   * 受講生検索です。
+   * IDに紐づく受講生情報を取得した後、その受講生に紐づく受講生コース情報を取得して設定します。
+   *
+   * @param id　受講生ID
+   * @return 受講生
+   */
   public StudentDetail searchStudent(String id) {
     Student student = repository.searchStudent(id);
     List<StudentCourse> studentCourses = repository.findStudentCourseByStudentId(student.getId());
@@ -48,7 +70,7 @@ public class StudentService {
   }
 
   @Transactional
-  public void registerStudent(StudentDetail studentDetail) {
+  public StudentDetail registerStudent(StudentDetail studentDetail) {
     repository.insertStudent(studentDetail.getStudent());
     Integer studentId = studentDetail.getStudent().getId();
     for (StudentCourse course : studentDetail.getStudentCourse()) {
@@ -56,7 +78,9 @@ public class StudentService {
       course.setStartDate(LocalDate.now());
       repository.insertStudentCourse(course);
     }
+    return studentDetail;
   }
+
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
     if (Boolean.TRUE.equals(studentDetail.getCancel())) {
