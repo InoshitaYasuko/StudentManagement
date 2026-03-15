@@ -105,8 +105,10 @@ public interface StudentRepository {
   @Update("""
             UPDATE students_courses
             SET
-            course_name = #{courseName}
-            WHERE student_id = #{studentId}
+            course_name = #{courseName},
+            start_date = #{startDate},
+            end_date = #{endDate}
+            WHERE id = #{id}
       """)
   void updateStudentCourse(StudentCourse studentCourse);
 }
