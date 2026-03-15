@@ -15,7 +15,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 @Mapper
 public interface StudentRepository {
   List<Student> search();
-  Student searchStudent(String id);
+  Student searchStudent(int id);
   List<StudentCourse> searchCourseList();
   Student findStudentById(int id);
   List<StudentCourse> findStudentCourseByStudentId(int studentId);

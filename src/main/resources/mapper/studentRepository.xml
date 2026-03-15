@@ -8,7 +8,17 @@
   </select>
 
   <!-- 受講生の検索 -->
-  <select id="findStudentCourseByStudentId" resultType="raisetech.StudentManagement.data.StudentCourse">
+  <select id="findStudentById" parameterType="int" resultType="raisetech.StudentManagement.data.Student">
+    SELECT * FROM students WHERE id = #{id}
+  </select>
+
+  <!-- コース全件 -->
+  <select id="searchCourseList" resultType="raisetech.StudentManagement.data.StudentCourse">
+    SELECT * FROM students_courses
+  </select>
+
+  <!-- 学生IDでコース検索 -->
+  <select id="findStudentCourseByStudentId" parameterType="int" resultType="raisetech.StudentManagement.data.StudentCourse">
     SELECT * FROM students_courses WHERE student_id = #{studentId}
   </select>
 
