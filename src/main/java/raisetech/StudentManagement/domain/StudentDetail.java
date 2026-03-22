@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.domain;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +16,9 @@ import raisetech.StudentManagement.data.StudentCourse;
 
 public class StudentDetail {
 
+  @Valid
   private Student student;
-  private List<StudentCourse> studentCourse;
+  private List<StudentCourse> studentCourseList;
 
   private Boolean cancel;
   public Boolean getCancel(){
