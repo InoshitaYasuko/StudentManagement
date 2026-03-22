@@ -33,37 +33,45 @@ public class StudentController {
   }
 
   /**
-   * 受講生詳細の一覧検索です。
-   * 全件検索を行うので、条件指定は行わないものになります。
+   * 受講生詳細の一覧検索です。 全件検索を行うので、条件指定は行わないものになります。
    *
    * @return　受講生詳細一覧(全件)
    */
   @GetMapping("/studentList")
-  public List <StudentDetail> getStudentList() throws TestException {
-    throw new TestException("現在、このAPIは利用できません。URLは「StudentList」ではなく、「students」を利用してください");
+  public List<StudentDetail> getStudentList() throws TestException {
+    throw new TestException(
+        "現在、このAPIは利用できません。URLは「studentList」ではなく、「students」を利用してください");
     //return service.searchStudentList();
   }
 
   /**
-   * 受講生詳細検索です。
-   * IDに紐づく任意の受講生の情報を取得します。
+   * 受講生詳細検索です。 IDに紐づく任意の受講生の情報を取得します。
    *
-   * @param id　受講生ID
+   * @param id 受講生ID
    * @return　受講生詳細
    */
   @GetMapping("/student/{id}")
-  public StudentDetail getStudent(@PathVariable String id){
+  public StudentDetail getStudent(@PathVariable String id) {
+    if (id == null || id.isEmpty() || id.equals("0")) {
+      throw new IllegalArgumentException("IDが無効です");
+  }
     return service.searchStudent(id);
+  }
+
+  @GetMapping("/student")
+  public void getStudentEmpty() {
+    throw new IllegalArgumentException("IDが未入力です");
   }
 
   /**
    * 受講生の登録を行います。
    *
-   * @param studentDetail　受講生詳細
+   * @param studentDetail 受講生詳細
    * @return　実行結果
    */
   @PostMapping("/registerStudent")
-  public ResponseEntity<StudentDetail> registerStudent(@Valid @RequestBody StudentDetail studentDetail) {
+  public ResponseEntity<StudentDetail> registerStudent(
+      @Valid @RequestBody StudentDetail studentDetail) {
     StudentDetail responseStuduntDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok(responseStuduntDetail);
   }
@@ -79,9 +87,5 @@ public class StudentController {
   public ResponseEntity<String> updateStudent(@Valid @RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
-  }
-  @ExceptionHandler(TestException.class)
-  public ResponseEntity<String> hendleTestException(TestException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
   }
 }
