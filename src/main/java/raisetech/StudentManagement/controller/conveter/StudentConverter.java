@@ -9,7 +9,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 
 /**
- * Serviceから取得したオブジェクトをControllerにとって必要な形に変換するコンバーターです。
+ * 受講生詳細を受講生や受講生コース情報、もしくはその逆の変換を行うコンバーターです。
  */
 @Component
 public class StudentConverter {
