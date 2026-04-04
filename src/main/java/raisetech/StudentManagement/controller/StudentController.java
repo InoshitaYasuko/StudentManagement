@@ -52,6 +52,7 @@ public class StudentController {
    * @param id 受講生ID
    * @return　受講生詳細
    */
+  @Operation(summary = "単体検索", description = "IDを指定して受講生を検索します")
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(@PathVariable String id) {
     if (id == null || id.isEmpty() || id.equals("0")) {
@@ -59,7 +60,7 @@ public class StudentController {
   }
     return service.searchStudent(id);
   }
-
+  @Operation(summary = "ID未入力エラー", description = "IDが未入力の時に発生するエラーです")
   @GetMapping("/student")
   public void getStudentEmpty() {
     throw new IllegalArgumentException("IDが未入力です");
