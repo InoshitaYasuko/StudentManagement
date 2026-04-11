@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -41,11 +40,14 @@ class StudentServiceTest {
     StudentService sut = new StudentService(repository, converter);
     List<Student> studentList = new ArrayList<>();
     List<StudentCourse>  studentCourseList = new ArrayList<>();
+    List<StudentDetail> expected = new ArrayList<>();
 
     when(repository.search()).thenReturn(studentList);
     when(repository.searchCourseList()).thenReturn(studentCourseList);
+    when(converter.convertStudentDetails(studentList, studentCourseList)).thenReturn(expected);
 
-    sut.searchStudentList();
+    List<StudentDetail> actual = sut.searchStudentList();
+    assertEquals(expected, actual);
 
     verify(repository, times(1)).search();
     verify(repository, times(1)).searchCourseList();
