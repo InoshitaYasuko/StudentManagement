@@ -1,6 +1,11 @@
 package raisetech.StudentManagement.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import java.util.List;
@@ -52,6 +57,12 @@ public class StudentController {
    * @param id 受講生ID
    * @return　受講生詳細
    */
+  @Operation(summary = "単体検索", description = "IDを指定して受講生を検索します")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "受講生情報の検索が完了しました"),
+      @ApiResponse(responseCode = "400", description = "IDが不正です"),
+      @ApiResponse(responseCode = "404", description = "該当受講生情報がありません")
+  })
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(@PathVariable String id) {
     if (id == null || id.isEmpty() || id.equals("0")) {
@@ -59,7 +70,7 @@ public class StudentController {
   }
     return service.searchStudent(id);
   }
-
+  @Operation(summary = "ID未入力エラー", description = "IDが未入力の時に発生するエラーです")
   @GetMapping("/student")
   public void getStudentEmpty() {
     throw new IllegalArgumentException("IDが未入力です");
@@ -72,6 +83,10 @@ public class StudentController {
    * @return　実行結果
    */
   @Operation(summary = "受講生登録", description = "受講生を登録します")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "受講生情報の登録が完了しました"),
+      @ApiResponse(responseCode = "400", description = "入力情報が未記入、または不正です")
+  })
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(
       @Valid @RequestBody StudentDetail studentDetail) {
@@ -86,6 +101,12 @@ public class StudentController {
    * @param studentDetail　受講生詳細
    * @return　実行結果
    */
+  @Operation(summary = "受講生更新", description = "受講生を更新します")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "受講生情報の更新が完了しました"),
+      @ApiResponse(responseCode = "400", description = "入力値が不正です"),
+      @ApiResponse(responseCode = "404", description = "該当受講生情報がありません")
+  })
   @PutMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(@Valid @RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
