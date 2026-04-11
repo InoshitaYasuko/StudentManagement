@@ -52,7 +52,7 @@ class StudentServiceTest {
     verify(converter, times(1)).convertStudentDetails(studentList, studentCourseList);
   }
   @Test
-  void 受講生登録_リポジトリの処理が適切に呼び出せている事() {
+  void 受講生情報登録_リポジトリの処理が適切に呼び出せている事() {
     Student student = new Student();
     student.setId(1);
     StudentCourse course = new StudentCourse();
@@ -65,5 +65,16 @@ class StudentServiceTest {
 
     verify(repository).insertStudent(student);
     verify(repository).insertStudentCourse(course);
+  }
+  @Test
+  void 受講生情報更新_リポジトリの処理が適切に呼び出せている事(){
+    Student student = new Student();
+    student.setId(1);
+    StudentCourse course = new StudentCourse();
+
+    sut.updateStudent(student, List.of(course));
+
+    verify(repository).updateStudent(student);
+    verify(repository).updateStudentCourse(course);
   }
 }
