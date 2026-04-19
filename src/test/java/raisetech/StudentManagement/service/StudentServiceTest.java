@@ -85,6 +85,24 @@ class StudentServiceTest {
     verify(repository).insertStudentCourse(course);
   }
   @Test
+  void 受講生登録_コースに初期値が設定される事(){
+    Student student = new Student();
+    student.setId(1);
+
+    StudentCourse course = new StudentCourse();
+
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourseList(List.of(course));
+
+    sut.registerStudent(studentDetail);
+
+    assertEquals(1, course.getStudentId());
+    assertNotNull(course.getStartDate());
+    assertNotNull(course.getEndDate());
+    assertEquals(course.getStartDate().plusYears(1), course.getEndDate());
+  }
+  @Test
   void 受講生情報更新_リポジトリの処理が適切に呼び出せている事(){
     Student student = new Student();
     student.setId(1);
