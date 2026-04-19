@@ -72,7 +72,12 @@ class StudentServiceTest {
     student.setId(1);
     StudentCourse course = new StudentCourse();
 
-    sut.updateStudent(student, List.of(course));
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourseList(List.of(course));
+    studentDetail.setCancel(false);
+
+    sut.updateStudent(studentDetail);
 
     verify(repository).updateStudent(student);
     verify(repository).updateStudentCourse(course);
