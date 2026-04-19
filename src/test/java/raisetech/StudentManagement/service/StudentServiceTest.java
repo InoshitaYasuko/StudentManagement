@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 import raisetech.StudentManagement.controller.conveter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -50,6 +54,20 @@ class StudentServiceTest {
     verify(repository, times(1)).search();
     verify(repository, times(1)).searchCourseList();
     verify(converter, times(1)).convertStudentDetails(studentList, studentCourseList);
+  }
+  @Test
+  void 受講生詳細検索_ID指定で検索できる事(){
+    Student student = new Student();
+    List<StudentCourse> courses = new ArrayList<>();
+
+    when(repository.findStudentById(1)).thenReturn(student);
+    when(repository.findStudentCourseByStudentId(1)).thenReturn(courses);
+
+    StudentDetail result = sut.searchStudent("1");
+
+    assertNotNull(result);
+    verify(repository).findStudentById(1);
+    verify(repository).findStudentCourseByStudentId(1);
   }
   @Test
   void 受講生情報登録_リポジトリの処理が適切に呼び出せている事() {
