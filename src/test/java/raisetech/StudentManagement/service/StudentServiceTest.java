@@ -72,7 +72,7 @@ class StudentServiceTest {
   @Test
   void 受講生情報登録_リポジトリの処理が適切に呼び出せている事() {
     Student student = new Student();
-    student.setId(1);
+    student.setId("1");
     StudentCourse course = new StudentCourse();
 
     StudentDetail studentDetail = new StudentDetail();
@@ -87,7 +87,7 @@ class StudentServiceTest {
   @Test
   void 受講生登録_コースに初期値が設定される事(){
     Student student = new Student();
-    student.setId(1);
+    student.setId("1");
 
     StudentCourse course = new StudentCourse();
 
@@ -105,7 +105,7 @@ class StudentServiceTest {
   @Test
   void 受講生情報更新_リポジトリの処理が適切に呼び出せている事(){
     Student student = new Student();
-    student.setId(1);
+    student.setId("1");
     StudentCourse course = new StudentCourse();
 
     StudentDetail studentDetail = new StudentDetail();

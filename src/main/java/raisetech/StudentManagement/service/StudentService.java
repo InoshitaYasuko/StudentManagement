@@ -66,7 +66,7 @@ public class StudentService {
   public StudentDetail registerStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
     repository.insertStudent(student);
-    Integer studentId = student.getId();
+    String studentId = student.getId();
     studentDetail.getStudentCourseList().forEach(course -> {
       initStudentsCourse(course, studentId);
       repository.insertStudentCourse(course);
@@ -80,7 +80,7 @@ public class StudentService {
    * @param course　受講生コース情報
    * @param studentId　受講生
    */
-  private void initStudentsCourse(StudentCourse course, Integer studentId) {
+  private void initStudentsCourse(StudentCourse course, String studentId) {
     course.setStudentId(studentId);
     course.setStartDate(LocalDate.now());
     course.setEndDate(LocalDate.now().plusYears(1));
