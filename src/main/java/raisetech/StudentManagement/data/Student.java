@@ -17,7 +17,11 @@ import lombok.Setter;
 
 public class Student {
 
-  private Integer id;
+  /**
+   * IDの入力チェックです。
+   */
+  @Pattern(regexp = "\\d+$", message = "IDは数字のみで入力してください")
+  private String id;
 
   /**
    * フルネームの入力チェックです
