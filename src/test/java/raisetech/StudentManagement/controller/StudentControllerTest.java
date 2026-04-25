@@ -78,4 +78,15 @@ class StudentControllerTest {
     assertThat(violations).extracting("message")
         .containsOnly("IDは数字のみで入力してください");
   }
+  @Test
+  void 受講生情報の更新が実行できること(){
+    Student student = new Student();
+    student.setId(");
+    student.setFullName("井上　愛 ");
+    student.setFurigana("イノウエ　マナ");
+    student.setNickname("まーちゃん");
+    student.setEmail("ai.inoue@outlook.com");
+    student.setCity("東京都世田谷区");
+    student.setGender("女性");
+  }
 }
