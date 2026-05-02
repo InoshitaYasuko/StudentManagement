@@ -107,6 +107,14 @@ class StudentControllerTest {
         .andExpect(jsonPath("$.student.id").value("1"))
         .andExpect(jsonPath("$.student.fullName").value("井上　愛"));
 
+    //IDが不正の場合
+    mockMvc.perform(get("/student/0"))
+            .andExpect(status().isBadRequest());
+
+    //IDが未入力の場合
+    mockMvc.perform(get("/student"))
+        .andExpect(status().isBadRequest());
+
     verify(service, times(1)).searchStudent("1");
 }
   @Test
@@ -134,4 +142,5 @@ class StudentControllerTest {
 
 verify(service,times(1)).updateStudent(any());
   }
+
 }
