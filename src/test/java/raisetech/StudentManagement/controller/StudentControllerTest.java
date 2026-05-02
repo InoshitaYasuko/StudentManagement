@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.linesOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import jakarta.validation.ConstraintViolation;
@@ -47,8 +49,9 @@ class StudentControllerTest {
 
     verify(service, times(1)).searchStudentList();
   }
+
   @Test
-  void 受講生詳細の受講生で適切な値を入力した時に入力チェックに異常が発生しないこと(){
+  void 受講生詳細の受講生で適切な値を入力した時に入力チェックに異常が発生しないこと() {
     Student student = new Student();
     student.setId("1");
     student.setFullName("井上　愛 ");
@@ -62,8 +65,9 @@ class StudentControllerTest {
 
     assertThat(violations.size()).isEqualTo(0);
   }
+
   @Test
-  void 受講生詳細の受講生でIDに数字以外を用いた時に入力チェックに掛かること(){
+  void 受講生詳細の受講生でIDに数字以外を用いた時に入力チェックに掛かること() {
     Student student = new Student();
     student.setId("テストです");
     student.setFullName("井上　愛 ");
@@ -79,6 +83,32 @@ class StudentControllerTest {
     assertThat(violations).extracting("message")
         .containsOnly("IDは数字のみで入力してください");
   }
+
+  @Test
+  void 受講生情報詳細が1件検索し情報を取得できること() throws Exception{
+    StudentDetail detail = new StudentDetail();
+
+    Student student = new Student();
+    student.setId("1");
+    student.setFullName("井上　愛");
+    student.setFurigana("イノウエ　マナ");
+    student.setNickname("まーちゃん");
+    student.setEmail("ai.inoue@outlook.com");
+    student.setCity("東京都世田谷区");
+    student.setGender("女性");
+
+    detail.setStudent(student);
+
+    when(service.searchStudent("1")).thenReturn(detail);
+
+    mockMvc.perform(get("/student/1"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType("application/json"))
+        .andExpect(jsonPath("$.student.id").value("1"))
+        .andExpect(jsonPath("$.student.fullName").value("井上　愛"));
+
+    verify(service, times(1)).searchStudent("1");
+}
   @Test
   void 受講生情報の更新が実行できること() throws Exception{
     String json = """
