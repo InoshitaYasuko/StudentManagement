@@ -31,4 +31,19 @@ class StudentConverterTest {
     assertEquals(student, detail.getStudent());
     assertEquals(1, detail.getStudentCourseList().size());
   }
+  @Test
+  void 紐づくコースがない場合は空リストになること(){
+    Student student = new Student();
+    student.setId("1");
+
+    StudentCourse course = new StudentCourse();
+    course.setStudentId("999");
+
+    List<StudentDetail> result = converter.convertStudentDetails(
+        List.of(student),
+        List.of(course)
+    );
+
+    assertEquals(0, result.get(0).getStudentCourseList().size());
+  }
 }
