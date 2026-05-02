@@ -13,7 +13,7 @@ class StudentConverterTest {
   private StudentConverter converter = new StudentConverter();
 
   @Test
-  void 受講生情報とコース情報が正しく紐づくこと(){
+  void 受講生情報とコース情報が正しく紐づくこと() {
     Student student = new Student();
     student.setId("1");
 
@@ -31,8 +31,9 @@ class StudentConverterTest {
     assertEquals(student, detail.getStudent());
     assertEquals(1, detail.getStudentCourseList().size());
   }
+
   @Test
-  void 紐づくコースがない場合は空リストになること(){
+  void 紐づくコースがない場合は空リストになること() {
     Student student = new Student();
     student.setId("1");
 
@@ -46,8 +47,9 @@ class StudentConverterTest {
 
     assertEquals(0, result.get(0).getStudentCourseList().size());
   }
+
   @Test
-  void 複数のコースが紐づくこと(){
+  void 複数のコースが紐づくこと() {
     Student student = new Student();
     student.setId("1");
 
@@ -64,3 +66,4 @@ class StudentConverterTest {
 
     assertEquals(2, result.get(0).getStudentCourseList().size());
   }
+}
