@@ -49,7 +49,6 @@ class StudentControllerTest {
 
     verify(service, times(1)).searchStudentList();
   }
-
   @Test
   void 受講生詳細の受講生で適切な値を入力した時に入力チェックに異常が発生しないこと() {
     Student student = new Student();
@@ -65,7 +64,6 @@ class StudentControllerTest {
 
     assertThat(violations.size()).isEqualTo(0);
   }
-
   @Test
   void 受講生詳細の受講生でIDに数字以外を用いた時に入力チェックに掛かること() {
     Student student = new Student();
@@ -83,7 +81,6 @@ class StudentControllerTest {
     assertThat(violations).extracting("message")
         .containsOnly("IDは数字のみで入力してください");
   }
-
   @Test
   void 受講生情報詳細が1件検索し情報を取得できること() throws Exception {
     StudentDetail detail = new StudentDetail();
@@ -117,7 +114,6 @@ class StudentControllerTest {
 
     verify(service, times(1)).searchStudent("1");
   }
-
   @Test
   void 受講生情報の更新が実行できること() throws Exception {
     String json = """
@@ -143,7 +139,6 @@ class StudentControllerTest {
 
     verify(service, times(1)).updateStudent(any());
   }
-
   @Test
   void コース名が未入力の場合は400になること() throws Exception {
     String json = """
