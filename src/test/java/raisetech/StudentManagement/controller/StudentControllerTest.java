@@ -50,7 +50,7 @@ class StudentControllerTest {
   }
 
   @Test
-  void 受講生詳細の検索が実行できて空のリストが返ってくること() throws Exception {
+  void 受講生詳細の単体検索が実行できて空のリストが返ってくること() throws Exception {
     when(service.searchStudent("999")).thenReturn(new StudentDetail());
     mockMvc.perform(get("/student/999"))
         .andExpect(status().isOk());
