@@ -31,7 +31,6 @@ class StudentConverterTest {
     assertEquals(student, detail.getStudent());
     assertEquals(1, detail.getStudentCourseList().size());
   }
-
   @Test
   void 紐づくコースがない場合は空リストになること() {
     Student student = new Student();
@@ -47,7 +46,6 @@ class StudentConverterTest {
 
     assertEquals(0, result.get(0).getStudentCourseList().size());
   }
-
   @Test
   void 複数のコースが紐づくこと() {
     Student student = new Student();
