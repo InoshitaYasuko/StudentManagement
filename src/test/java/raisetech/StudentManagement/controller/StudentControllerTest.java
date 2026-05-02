@@ -2,6 +2,7 @@ package raisetech.StudentManagement.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -79,14 +80,28 @@ class StudentControllerTest {
         .containsOnly("IDは数字のみで入力してください");
   }
   @Test
-  void 受講生情報の更新が実行できること(){
-    Student student = new Student();
-    student.setId(");
-    student.setFullName("井上　愛 ");
-    student.setFurigana("イノウエ　マナ");
-    student.setNickname("まーちゃん");
-    student.setEmail("ai.inoue@outlook.com");
-    student.setCity("東京都世田谷区");
-    student.setGender("女性");
+  void 受講生情報の更新が実行できること() throws Exception{
+    String json = """
+      {
+        "student": {
+          "id": "1",
+          "fullName": "井上 愛",
+          "furigana": "イノウエ マナ",
+          "nickname": "まーちゃん",
+          "email": "ai.inoue@outlook.com",
+          "city": "東京都世田谷区",
+          "gender": "女性"
+        },
+        "studentCourseList": []
+      }
+      """;
+
+    mockMvc.perform(put("/updateStudent")
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content().string("更新処理が成功しました。"));
+
+verify(service,times(1)).updateStudent(any());
   }
 }
