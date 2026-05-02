@@ -125,37 +125,39 @@ class StudentControllerTest {
 
     verify(service, times(1)).searchStudent("1");
   }
+
   @Test
   void 受講生情報の登録が実行ができること() throws Exception {
     String json = """
-    {
-      "student": {
-        "id": "1",
-        "fullName": "井上 愛",
-        "furigana": "イノウエ マナ",
-        "nickname": "まーちゃん",
-        "email": "ai.inoue@outlook.com",
-        "city": "東京都世田谷区",
-        "gender": "女性"
-      },
-      "studentCourseList": [
-      {
-        "courseName": "ExcelVBA入門コース",
-        "startDate": "2024-01-01",
-        "endDate": "2024-03-31",
-        "studentId": "1"
-      }
-     ]
-    }
-    """;
+        {
+          "student": {
+            "id": "1",
+            "fullName": "井上 愛",
+            "furigana": "イノウエ マナ",
+            "nickname": "まーちゃん",
+            "email": "ai.inoue@outlook.com",
+            "city": "東京都世田谷区",
+            "gender": "女性"
+          },
+          "studentCourseList": [
+          {
+            "courseName": "ExcelVBA入門コース",
+            "startDate": "2024-01-01",
+            "endDate": "2024-03-31",
+            "studentId": "1"
+          }
+         ]
+        }
+        """;
 
     mockMvc.perform(post("/registerStudent")
             .contentType("application/json")
             .content(json))
         .andExpect(status().isOk());
 
-    when(service.registerStudent(any())).thenReturn(new StudentDetail());
-}
+    verify(service, times(1)).registerStudent(any());
+  }
+
   @Test
   void 受講生情報の更新が実行できること() throws Exception {
     String json = """
@@ -181,6 +183,15 @@ class StudentControllerTest {
 
     verify(service, times(1)).updateStudent(any());
   }
+
+  @Test
+  void 受講生詳細の例外APIが実行できてステータスが400で返ってくること() throws Exception {
+    mockMvc.perform(get("/exception"))
+        .andExpect(status().is4xxClientError())
+        .andExpect(content().string(
+            "現在、このAPIは利用できません。URLは「studentList」ではなく、「students」を利用してください"));
+  }
+
   @Test
   void コース名が未入力の場合は400になること() throws Exception {
     String json = """
