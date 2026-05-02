@@ -45,10 +45,19 @@ class StudentControllerTest {
     when(service.searchStudentList()).thenReturn(List.of(new StudentDetail()));
 
     mockMvc.perform(get("/studentList"))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(content().json("[]"));
 
     verify(service, times(1)).searchStudentList();
   }
+  @Test
+  void 受講生詳細の一覧検索が実行できて空のリストが返ってくること() throws Exception{
+    mockMvc.perform(get("/studentList"))
+        .andExpect(status().isOk())
+        .andExpect(content().json("[]"));
+
+    verify(service, times(1)).searchStudentList();
+}
   @Test
   void 受講生詳細の受講生で適切な値を入力した時に入力チェックに異常が発生しないこと() {
     Student student = new Student();
