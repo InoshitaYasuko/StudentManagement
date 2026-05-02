@@ -85,7 +85,7 @@ class StudentControllerTest {
   }
 
   @Test
-  void 受講生情報詳細が1件検索し情報を取得できること() throws Exception{
+  void 受講生情報詳細が1件検索し情報を取得できること() throws Exception {
     StudentDetail detail = new StudentDetail();
 
     Student student = new Student();
@@ -109,38 +109,70 @@ class StudentControllerTest {
 
     //IDが不正の場合
     mockMvc.perform(get("/student/0"))
-            .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest());
 
     //IDが未入力の場合
     mockMvc.perform(get("/student"))
         .andExpect(status().isBadRequest());
 
     verify(service, times(1)).searchStudent("1");
-}
+  }
+
   @Test
-  void 受講生情報の更新が実行できること() throws Exception{
+  void 受講生情報の更新が実行できること() throws Exception {
     String json = """
-      {
-        "student": {
-          "id": "1",
-          "fullName": "井上 愛",
-          "furigana": "イノウエ マナ",
-          "nickname": "まーちゃん",
-          "email": "ai.inoue@outlook.com",
-          "city": "東京都世田谷区",
-          "gender": "女性"
-        },
-        "studentCourseList": []
-      }
-      """;
+        {
+          "student": {
+            "id": "1",
+            "fullName": "井上 愛",
+            "furigana": "イノウエ マナ",
+            "nickname": "まーちゃん",
+            "email": "ai.inoue@outlook.com",
+            "city": "東京都世田谷区",
+            "gender": "女性"
+          },
+          "studentCourseList": []
+        }
+        """;
 
     mockMvc.perform(put("/updateStudent")
-        .contentType("application/json")
-        .content(json))
+            .contentType("application/json")
+            .content(json))
         .andExpect(status().isOk())
         .andExpect(content().string("更新処理が成功しました。"));
 
-verify(service,times(1)).updateStudent(any());
+    verify(service, times(1)).updateStudent(any());
   }
 
+  @Test
+  void コース名が未入力の場合は400になること() throws Exception {
+    String json = """
+        {
+          "student": {
+            "id": "1",
+            "fullName": "井上 愛",
+            "furigana": "イノウエ マナ",
+            "nickname": "まーちゃん",
+            "email": "ai.inoue@outlook.com",
+            "city": "東京都世田谷区",
+            "gender": "女性"
+          },
+          "studentCourseList": [
+            {
+              "courseName": "",
+              "startDate": "2024-01-01",
+              "endDate": "2024-03-01"
+            }
+          ]
+        }
+        """;
+
+    mockMvc.perform(post("/registerStudent")
+            .contentType("application/json")
+            .content(json))
+        .andExpect(status().isBadRequest())
+        .andExpect(content().string(
+            org.hamcrest.Matchers.containsString("コース名は必須です")
+        ));
+  }
 }
