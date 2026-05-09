@@ -4,7 +4,7 @@
 
   <!-- 受講生の全件検索 -->
   <select id="search" resultType="raisetech.StudentManagement.data.Student">
-    SELECT * FROM students WHERE is_deleted = 0
+    SELECT * FROM students WHERE is_deleted = FALSE
   </select>
 
   <!-- 受講生のID検索 -->
