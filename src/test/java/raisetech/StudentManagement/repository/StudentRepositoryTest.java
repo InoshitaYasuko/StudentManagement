@@ -51,4 +51,14 @@ class StudentRepositoryTest {
     assertThat(actual).isNotNull();
     assertThat(actual.getId()).isEqualTo("1");
   }
+  @Test
+  void 受講生情報の更新が行えること(){
+    Student student = sut.findStudentById(1);
+    student.setNickname("更新後");
+    sut.updateStudent(student);
+    Student updated = sut.findStudentById(1);
+
+    assertThat(updated.getNickname())
+        .isEqualTo("更新後");
+  }
 }
