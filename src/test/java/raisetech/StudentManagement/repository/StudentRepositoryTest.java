@@ -39,5 +39,10 @@ class StudentRepositoryTest {
     List<Student> actual = sut.search();
 
     assertThat(actual.size()).isEqualTo(12);
+
+    Student registeredStudent = actual.get(actual.size() - 1);
+
+    assertThat(registeredStudent.getFullName())
+        .isEqualTo("三上　ネル");
   }
 }
