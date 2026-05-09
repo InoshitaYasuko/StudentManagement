@@ -33,7 +33,6 @@ class StudentRepositoryTest {
     student.setRemark("");
     student.setDeleted(false);
 
-
     sut.insertStudent(student);
 
     List<Student> actual = sut.search();
@@ -44,5 +43,12 @@ class StudentRepositoryTest {
 
     assertThat(registeredStudent.getFullName())
         .isEqualTo("三上　ネル");
+  }
+  @Test
+  void IDによる受講生の検索ができること(){
+    Student actual = sut.findStudentById(1);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual.getId()).isEqualTo("1");
   }
 }
