@@ -15,15 +15,19 @@ import lombok.Setter;
   public class StudentCourse {
     private Integer id;
 
+    //　受験IDのチェック
     @NotBlank(message = "受講生IDは必須です")
     private String studentId;
 
+    //　コース名のチェック
     @NotBlank(message = "コース名は必須です")
     private String courseName;
 
+    //　受講開始日のチェック
     @NotNull(message = "開始日は必須です")
     private LocalDate startDate;
 
+    //　受講終了日のチェック
     @NotNull(message = "終了日は必須です")
     private LocalDate endDate;
 
@@ -34,5 +38,13 @@ import lombok.Setter;
         return true;
       }
       return !endDate.isBefore(startDate);
+    }
+    //　申込機能
+    private ApplicationStatus applicationStatus;
+    private ApplicationStatus getApplicationStatus(){
+      return applicationStatus;
+    }
+    public void setApplicationStatus(ApplicationStatus applicationStatus){
+      this.applicationStatus = applicationStatus;
     }
   }

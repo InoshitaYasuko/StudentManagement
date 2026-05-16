@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.conveter.StudentConverter;
+import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -102,5 +103,17 @@ public class StudentService {
       course.setStudentId(studentDetail.getStudent().getId());
       repository.updateStudentCourse(course);
     });
+  }
+
+  /**
+   * 申込機能
+   *
+   *
+   * @param courseId
+   * @param status
+   */
+  @Transactional
+  public void updateApplicationStatus(Integer courseId, ApplicationStatus status){
+    repository.updateApplicationStatus(courseId, status);
   }
 }
