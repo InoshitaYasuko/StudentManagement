@@ -30,6 +30,18 @@ class StudentRepositoryTest {
     assertThat(actual.getId()).isEqualTo("1");
   }
   @Test
+  void コース情報の全件検索できること(){
+    List<StudentCourse> courseList = sut.searchCourseList();
+    assertThat(courseList).isNotNull();
+  }
+  @Test
+  void 受講生IDに紐づくコース情報の検索ができること(){
+    List<StudentCourse> actual = sut.findStudentCourseByStudentId(1);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual).isNotEmpty();
+  }
+  @Test
   void 受講生の登録が行えること(){
     Student student = new Student();
     student.setFullName("三上　ネル");
