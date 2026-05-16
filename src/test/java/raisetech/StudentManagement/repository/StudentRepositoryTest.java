@@ -3,11 +3,13 @@ package raisetech.StudentManagement.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import raisetech.StudentManagement.data.Student;
+import raisetech.StudentManagement.data.StudentCourse;
 
 @MybatisTest
 class StudentRepositoryTest {
@@ -19,6 +21,25 @@ class StudentRepositoryTest {
   void 受講生の全件検索が行えること() {
     List<Student> actual = sut.search();
     assertThat(actual.size()).isEqualTo(11);
+  }
+  @Test
+  void IDによる受講生の検索ができること(){
+    Student actual = sut.findStudentById(1);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual.getId()).isEqualTo("1");
+  }
+  @Test
+  void コース情報の全件検索できること(){
+    List<StudentCourse> courseList = sut.searchCourseList();
+    assertThat(courseList).isNotNull();
+  }
+  @Test
+  void 受講生IDに紐づくコース情報の検索ができること(){
+    List<StudentCourse> actual = sut.findStudentCourseByStudentId(1);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual).isNotEmpty();
   }
   @Test
   void 受講生の登録が行えること(){
@@ -33,11 +54,50 @@ class StudentRepositoryTest {
     student.setRemark("");
     student.setDeleted(false);
 
-
     sut.insertStudent(student);
 
     List<Student> actual = sut.search();
 
     assertThat(actual.size()).isEqualTo(12);
+
+    Student registeredStudent = actual.get(actual.size() - 1);
+
+    assertThat(registeredStudent.getFullName())
+        .isEqualTo("三上　ネル");
+  }
+  @Test
+  void コース情報の登録が行えること(){
+    StudentCourse course = new StudentCourse();
+    course.setStudentId("1");
+    course.setCourseName("Javaコース");
+    course.setStartDate(LocalDate.now());
+    course.setEndDate(LocalDate.now().plusMonths(3));
+
+    sut.insertStudentCourse(course);
+
+
+    List<StudentCourse> courses = sut.findStudentCourseByStudentId(1);
+
+    assertThat(courses).isNotEmpty();
+  }
+  @Test
+  void 受講生情報の更新が行えること(){
+    Student student = sut.findStudentById(1);
+    student.setNickname("更新後");
+    sut.updateStudent(student);
+    Student updated = sut.findStudentById(1);
+
+    assertThat(updated.getNickname())
+        .isEqualTo("更新後");
+  }
+  @Test
+  void コース情報の更新が行えること(){
+    List<StudentCourse> courses = sut.findStudentCourseByStudentId(1);
+    StudentCourse course = courses.get(0);
+    course.setCourseName("更新後コース");
+    sut.updateStudentCourse(course);
+    List<StudentCourse> updatedCourses = sut.findStudentCourseByStudentId(1);
+
+    assertThat(updatedCourses.get(0).getCourseName()).isEqualTo("更新後コース");
   }
 }
