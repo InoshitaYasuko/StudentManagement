@@ -90,4 +90,14 @@ class StudentRepositoryTest {
     assertThat(updated.getNickname())
         .isEqualTo("更新後");
   }
+  @Test
+  void コース情報の更新が行えること(){
+    List<StudentCourse> courses = sut.findStudentCourseByStudentId(1);
+    StudentCourse course = courses.get(0);
+    course.setCourseName("更新後コース");
+    sut.updateStudentCourse(course);
+    List<StudentCourse> updatedCourses = sut.findStudentCourseByStudentId(1);
+
+    assertThat(updatedCourses.get(0).getCourseName()).isEqualTo("更新後コース");
+  }
 }
