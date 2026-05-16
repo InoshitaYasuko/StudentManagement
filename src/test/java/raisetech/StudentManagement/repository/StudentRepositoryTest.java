@@ -3,11 +3,13 @@ package raisetech.StudentManagement.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import raisetech.StudentManagement.data.Student;
+import raisetech.StudentManagement.data.StudentCourse;
 
 @MybatisTest
 class StudentRepositoryTest {
@@ -19,6 +21,13 @@ class StudentRepositoryTest {
   void 受講生の全件検索が行えること() {
     List<Student> actual = sut.search();
     assertThat(actual.size()).isEqualTo(11);
+  }
+  @Test
+  void IDによる受講生の検索ができること(){
+    Student actual = sut.findStudentById(1);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual.getId()).isEqualTo("1");
   }
   @Test
   void 受講生の登録が行えること(){
@@ -45,11 +54,19 @@ class StudentRepositoryTest {
         .isEqualTo("三上　ネル");
   }
   @Test
-  void IDによる受講生の検索ができること(){
-    Student actual = sut.findStudentById(1);
+  void コース情報の登録が行えること(){
+    StudentCourse course = new StudentCourse();
+    course.setStudentId("1");
+    course.setCourseName("Javaコース");
+    course.setStartDate(LocalDate.now());
+    course.setEndDate(LocalDate.now().plusMonths(3));
 
-    assertThat(actual).isNotNull();
-    assertThat(actual.getId()).isEqualTo("1");
+    sut.insertStudentCourse(course);
+
+
+    List<StudentCourse> courses = sut.findStudentCourseByStudentId(1);
+
+    assertThat(courses).isNotEmpty();
   }
   @Test
   void 受講生情報の更新が行えること(){
