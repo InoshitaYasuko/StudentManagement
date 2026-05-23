@@ -44,7 +44,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
     //　申込機能のチェック
     @AssertTrue(message = "申込ステータスを選択する必要があります")
     private ApplicationStatus applicationStatus;
-    private ApplicationStatus getApplicationStatus(){
+    public ApplicationStatus getApplicationStatus(){
       return applicationStatus;
     }
     public void setApplicationStatus(ApplicationStatus applicationStatus){

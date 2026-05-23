@@ -1,7 +1,11 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +60,32 @@ public class StudentService {
     return new StudentDetail(student, courses, false);
   }
 
+  /**
+   * 全ての検索条件で受講生とコースの情報を検索できる
+   *
+   * @param studentId
+   * @return
+   */
+  public StudentDetail getStudentDetail(Integer studentId) {
+
+    Student student = repository.findStudentById(studentId);
+
+    List<StudentCourse> courses =
+        Optional.ofNullable(repository.findStudentCourseByStudentId(studentId))
+            .orElse(new ArrayList<>());
+
+    StudentDetail detail = new StudentDetail();
+    detail.setStudent(student);
+    detail.setStudentCourseList(courses);
+
+    detail.setCancel(
+        courses.stream()
+            .anyMatch(c -> c.getApplicationStatus() == ApplicationStatus.CANCEL)
+    );
+
+    return detail;
+  }
+
   /***
    * 受講生詳細の登録を行います。
    * 受講生と受講生コース情報を個別に登録し、受講生コース情報には受講生情報を紐づける値やコース開始日、コース終了日を設定します。
@@ -67,7 +97,7 @@ public class StudentService {
   public StudentDetail registerStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
     repository.insertStudent(student);
-    String studentId = student.getId();
+    Integer studentId = Integer.parseInt(student.getId());
     studentDetail.getStudentCourseList().forEach(course -> {
       initStudentsCourse(course, studentId);
       repository.insertStudentCourse(course);
@@ -81,7 +111,7 @@ public class StudentService {
    * @param course　受講生コース情報
    * @param studentId　受講生
    */
-  private void initStudentsCourse(StudentCourse course, String studentId) {
+  private void initStudentsCourse(StudentCourse course, Integer studentId) {
     course.setStudentId(studentId);
     course.setStartDate(LocalDate.now());
     course.setEndDate(LocalDate.now().plusYears(1));
@@ -101,8 +131,9 @@ public class StudentService {
       return;
     }
     repository.updateStudent(studentDetail.getStudent());
+    Integer studentId = Integer.parseInt(studentDetail.getStudent().getId());
     studentDetail.getStudentCourseList().forEach(course -> {
-      course.setStudentId(studentDetail.getStudent().getId());
+      course.setStudentId(studentId);
       repository.updateStudentCourse(course);
     });
   }

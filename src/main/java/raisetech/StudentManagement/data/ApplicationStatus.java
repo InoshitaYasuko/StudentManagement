@@ -5,7 +5,8 @@ public enum ApplicationStatus {
   TEMPORARY("仮申込"),
   OFFICIAL("本申込"),
   TAKING("受講中"),
-  COMPLETED("受講終了");
+  COMPLETED("受講終了"),
+  CANCEL("受講キャンセル");
 
   private final String label;
 

@@ -19,20 +19,28 @@
     SELECT * FROM students_courses WHERE student_id = #{value}
   </select>
   <!-- 様々な条件で情報検索 -->
-  <select id="searchCourses" resultType="raisetech.StudentManagement.data.StudentCourse">
+  <select id="findStudentsByCondition"
+    resultType="raisetech.StudentManagement.data.Student">
     SELECT *
-    FROM students_courses
+    FROM students
     <where>
-      <if test="studentId != null">
-        student_id = #{studentId}
+      <if test="gender != null and gender != ''">
+        AND gender = #{gender}
       </if>
-
-      <if test="courseName != null and courseName != ''">
-        AND course_name LIKE CONCAT('%', #{courseName}, '%')
+      <if test="fullName != null and fullName != ''">
+        AND full_name LIKE CONCAT('%', #{fullName}, '%')
       </if>
-
-      <if test="status != null">
-        AND application_status = #{status}
+      <if test="age != null">
+        AND age = #{age}
+      </if>
+      <if test="email != null and email != ''">
+        AND email LIKE CONCAT('%', #{email}, '%')
+      </if>
+      <if test="city != null and city != ''">
+        AND city = #{city}
+      </if>
+      <if test="isDeleted != null">
+        AND is_deleted = #{isDeleted}
       </if>
     </where>
   </select>
