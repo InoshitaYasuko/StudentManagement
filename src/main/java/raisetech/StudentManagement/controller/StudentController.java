@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.converter.ApplicationStatusRequest;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.domain.StudentSearchCondition;
 import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -53,15 +54,8 @@ public class StudentController {
 }
   @Operation(summary = "条件検索", description = "条件付きで受講生を検索します")
   @GetMapping("/student")
-  public List<StudentDetail> searchStudentByCondition(
-      @RequestParam(required = false) String gender
-  ) {
-
-    if (gender == null || gender.isEmpty()) {
-      return service.searchStudentList();
-    }
-
-    return service.searchStudentByGender(gender);
+  public List<StudentDetail> search(@RequestBody StudentSearchCondition condition) {
+    return service.searchStudentByCondition(condition);
   }
 
   /**

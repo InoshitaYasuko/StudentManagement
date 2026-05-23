@@ -14,6 +14,7 @@ import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.domain.StudentSearchCondition;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 /**
@@ -63,27 +64,17 @@ public class StudentService {
   /**
    * 全ての検索条件で受講生とコースの情報を検索できる
    *
-   * @param studentId
    * @return
    */
-  public StudentDetail getStudentDetail(Integer studentId) {
+  public List<StudentDetail> searchStudentByCondition(StudentSearchCondition condition) {
+    // studentsテーブルから条件検索
+    List<Student> studentList = repository.findStudentsByCondition(condition);
 
-    Student student = repository.findStudentById(studentId);
+    // 受講生コース情報は全件取得して、後で変換時にマッチするものを紐づける
+    List<StudentCourse> studentCourseList = repository.searchCourseList();
 
-    List<StudentCourse> courses =
-        Optional.ofNullable(repository.findStudentCourseByStudentId(studentId))
-            .orElse(new ArrayList<>());
-
-    StudentDetail detail = new StudentDetail();
-    detail.setStudent(student);
-    detail.setStudentCourseList(courses);
-
-    detail.setCancel(
-        courses.stream()
-            .anyMatch(c -> c.getApplicationStatus() == ApplicationStatus.CANCEL)
-    );
-
-    return detail;
+    // Student + Course → StudentDetail に変換
+    return converter.convertStudentDetails(studentList, studentCourseList);
   }
 
   /***
