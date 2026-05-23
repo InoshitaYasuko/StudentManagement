@@ -114,6 +114,7 @@ public class StudentController {
 
   /**
    * 申込機能
+   *
    * @param courseId
    * @param request
    */

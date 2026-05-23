@@ -109,7 +109,7 @@ public class StudentService {
 
   /**
    * 申込機能
-   *
+   * 受講生の各コースの申し込み状況が分かり、更新できます。
    *
    * @param courseId
    * @param status

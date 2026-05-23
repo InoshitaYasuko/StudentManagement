@@ -1,7 +1,12 @@
 package raisetech.StudentManagement.controller.converter;
 
+import lombok.Getter;
+import lombok.Setter;
 import raisetech.StudentManagement.data.ApplicationStatus;
 
+
+@Getter
+@Setter
 public class ApplicationStatusRequest {
   private ApplicationStatus status;
 

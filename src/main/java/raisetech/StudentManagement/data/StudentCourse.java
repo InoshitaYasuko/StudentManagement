@@ -1,14 +1,16 @@
 package raisetech.StudentManagement.data;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-  @Schema(description = "受講生コース情報")
+@Schema(description = "受講生コース情報")
   @Getter
   @Setter
 
@@ -16,8 +18,8 @@ import lombok.Setter;
     private Integer id;
 
     //　受験IDのチェック
-    @NotBlank(message = "受講生IDは必須です")
-    private String studentId;
+    @NotNull(message = "受講生IDは必須です")
+    private Integer studentId;
 
     //　コース名のチェック
     @NotBlank(message = "コース名は必須です")
@@ -39,7 +41,8 @@ import lombok.Setter;
       }
       return !endDate.isBefore(startDate);
     }
-    //　申込機能
+    //　申込機能のチェック
+    @AssertTrue(message = "申込ステータスを選択する必要があります")
     private ApplicationStatus applicationStatus;
     private ApplicationStatus getApplicationStatus(){
       return applicationStatus;
