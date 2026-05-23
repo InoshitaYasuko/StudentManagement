@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import raisetech.StudentManagement.controller.conveter.StudentConverter;
+import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -85,6 +85,8 @@ public class StudentService {
     course.setStudentId(studentId);
     course.setStartDate(LocalDate.now());
     course.setEndDate(LocalDate.now().plusYears(1));
+
+    course.setApplicationStatus(ApplicationStatus.TEMPORARY);
   }
 
   /***
@@ -113,7 +115,7 @@ public class StudentService {
    * @param status
    */
   @Transactional
-  public void updateApplicationStatus(Integer courseId, ApplicationStatus status){
+  public void updateApplicationStatus(int courseId, ApplicationStatus status){
     repository.updateApplicationStatus(courseId, status);
   }
 }

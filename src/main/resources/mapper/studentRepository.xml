@@ -28,9 +28,9 @@
   <!--  受講生コース情報登録 -->
   <insert id="insertStudentCourse">
     INSERT INTO students_courses
-    (student_id, course_name, start_date, end_date)
+    (student_id, course_name, start_date, end_date, application_status)
     VALUES
-    (#{studentId}, #{courseName}, #{startDate}, #{endDate})
+    (#{studentId}, #{courseName}, #{startDate}, #{endDate}, #{applicationStatus})
   </insert>
   <!--  受講生情報更新 -->
   <update id="updateStudent">
@@ -55,12 +55,13 @@
     course_name = #{courseName},
     start_date = #{startDate},
     end_date = #{endDate}
+    application_status = #{applicationStatus}
     WHERE id = #{id}
   </update>
   <!-- 申込機能 -->
   <update id="updateApplicationStatus">
     UPDATE students_courses
-    SET application_staus = #{staus}
+    SET application_status = #{status}
     WHERE id = #{courseId}
   </update>
 </mapper>
