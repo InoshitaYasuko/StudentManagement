@@ -139,5 +139,7 @@ public class StudentService {
   @Transactional
   public void updateApplicationStatus(int courseId, ApplicationStatus status){
     repository.updateApplicationStatus(courseId, status);
+    StudentCourse course = repository.findCourseById(courseId);
+    searchStudentDetailById(course.getStudentId());
   }
 }

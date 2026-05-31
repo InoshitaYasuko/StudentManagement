@@ -85,10 +85,17 @@
     application_status = #{applicationStatus}
     WHERE id = #{id}
   </update>
-  <!-- 申込機能 -->
+  <!-- 申込機能情報 -->
   <update id="updateApplicationStatus" parameterType="map">
     UPDATE students_courses
     SET application_status = #{status}
     WHERE id = #{courseId}
   </update>
+  <select id="findCourseById"
+    parameterType="int"
+    resultType="raisetech.StudentManagement.data.StudentCourse">
+    SELECT *
+    FROM students_courses
+    WHERE id = #{courseId}
+  </select>
 </mapper>

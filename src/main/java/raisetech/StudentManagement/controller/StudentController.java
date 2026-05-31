@@ -127,11 +127,20 @@ public class StudentController {
    * @param request
    */
   @Operation(summary = "申込状況更新", description = "コースの申込状況を更新します")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "申込状況を更新しました"),
+      @ApiResponse(responseCode = "400", description = "申込状況が不正ステータスです")
+  })
   @PatchMapping("/course/{courseId}/status")
-  public void updateApplicationStatus(
+  public ResponseEntity<String> updateApplicationStatus(
       @PathVariable int courseId,
       @RequestBody ApplicationStatusRequest request){
 
-    service.updateApplicationStatus(courseId,request.getStatus());
+    System.out.println("courseId=" + courseId);
+    System.out.println("status=" + request.getStatus());
+
+   service.updateApplicationStatus(courseId, request.getStatus());
+
+   return ResponseEntity.ok("コースの申込状況を更新しました");
   }
 }

@@ -22,6 +22,7 @@ public interface StudentRepository {
   Student findStudentById(int id);
   List<StudentCourse> findStudentCourseByStudentId(int studentId);
   List<Student> findStudentsByCondition(StudentSearchCondition condition);
+  StudentCourse findCourseById(int courseId);
   void insertStudent(Student student);
   void insertStudentCourse(StudentCourse studentCourse);
   void updateStudent(Student student);
