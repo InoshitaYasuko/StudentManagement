@@ -8,8 +8,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
+import raisetech.StudentManagement.domain.StudentSearchCondition;
 
 @MybatisTest
 class StudentRepositoryTest {
@@ -99,5 +101,15 @@ class StudentRepositoryTest {
     List<StudentCourse> updatedCourses = sut.findStudentCourseByStudentId(1);
 
     assertThat(updatedCourses.get(0).getCourseName()).isEqualTo("更新後コース");
+  }
+  @Test
+  void 申込状況で受講生検索ができること(){
+    StudentSearchCondition condition = new StudentSearchCondition();
+    condition.setApplicationStatus(ApplicationStatus.TAKING);
+
+    List<Student> actual = sut.findStudentsByCondition(condition);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual).isNotEmpty();
   }
 }
