@@ -22,9 +22,12 @@
   <select id="findStudentsByCondition"
     parameterType="raisetech.StudentManagement.domain.StudentSearchCondition"
     resultType="raisetech.StudentManagement.data.Student">
-    SELECT *
-    FROM students
+    SELECT DISTINCT s.*
+    FROM students s
+    LEFT JOIN students_courses sc
+    ON s.id = sc.student_id
     <where>
+      s.is_deleted = FALSE
       <if test="gender != null and gender != ''">
         AND gender = #{gender}
       </if>
@@ -40,8 +43,17 @@
       <if test="city != null and city != ''">
         AND city = #{city}
       </if>
-      <if test="isDeleted != null">
-        AND is_deleted = #{isDeleted}
+      <if test="courseName != null and courseName != ''">
+        AND sc.course_name LIKE CONCAT('%', #{courseName}, '%')
+      </if>
+      <if test="startDate != null">
+        AND sc.start_date &gt;= #{startDate}
+      </if>
+      <if test="endDate != null">
+        AND sc.end_date &lt;= #{endDate}
+      </if>
+      <if test="applicationStatus != null">
+        AND sc.application_status = #{applicationStatus}
       </if>
     </where>
   </select>

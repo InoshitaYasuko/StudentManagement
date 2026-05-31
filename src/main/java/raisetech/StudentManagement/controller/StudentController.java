@@ -54,7 +54,7 @@ public class StudentController {
 }
   @Operation(summary = "条件検索", description = "条件付きで受講生を検索します")
   @GetMapping("/student")
-  public List<StudentDetail> search(@RequestBody StudentSearchCondition condition) {
+  public List<StudentDetail> search(StudentSearchCondition condition) {
     return service.searchStudentByCondition(condition);
   }
 
