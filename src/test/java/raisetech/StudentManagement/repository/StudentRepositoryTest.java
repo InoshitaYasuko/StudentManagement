@@ -68,7 +68,7 @@ class StudentRepositoryTest {
   @Test
   void コース情報の登録が行えること(){
     StudentCourse course = new StudentCourse();
-    course.setStudentId("1");
+    course.setStudentId(1);
     course.setCourseName("Javaコース");
     course.setStartDate(LocalDate.now());
     course.setEndDate(LocalDate.now().plusMonths(3));
