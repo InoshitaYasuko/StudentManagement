@@ -78,7 +78,7 @@ public class StudentController {
     return service.searchStudent(id);
   }
   @Operation(summary = "ID未入力エラー", description = "IDが未入力の時に発生するエラーです")
-  @GetMapping("/student")
+  @GetMapping("/student/error")
   public void getStudentEmpty() {
     throw new IllegalArgumentException("IDが未入力です");
   }

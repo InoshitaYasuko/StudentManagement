@@ -20,6 +20,7 @@
   </select>
   <!-- 様々な条件で情報検索 -->
   <select id="findStudentsByCondition"
+    parameterType="raisetech.StudentManagement.domain.StudentSearchCondition"
     resultType="raisetech.StudentManagement.data.Student">
     SELECT *
     FROM students
