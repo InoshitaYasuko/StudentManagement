@@ -246,18 +246,41 @@ class StudentControllerTest {
             ApplicationStatus.TAKING
         );
   }
+
   @Test
-  void 不正な申込状況の場合は400エラーになること () throws Exception {
+  void 不正な申込状況の場合は400エラーになること() throws Exception {
     String json = """
-      {
-        "status": "TEST"
-      }
-      """;
+        {
+          "status": "TEST"
+        }
+        """;
 
     mockMvc.perform(
             patch("/course/1/status")
                 .contentType("application/json")
                 .content(json))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void 申込状況が未指定の場合は400エラーになること() throws Exception {
+    String json = """
+        {
+        }
+        """;
+
+    mockMvc.perform(
+            patch("/course/1/status")
+                .contentType("application/json")
+                .content(json))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void ageに文字列を指定した場合は400エラーになること() throws Exception {
+    mockMvc.perform(
+            get("/students")
+                .param("age", "abc"))
         .andExpect(status().isBadRequest());
   }
 }

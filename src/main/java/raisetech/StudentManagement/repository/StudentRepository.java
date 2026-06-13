@@ -1,11 +1,7 @@
 package raisetech.StudentManagement.repository;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -27,5 +23,5 @@ public interface StudentRepository {
   void insertStudentCourse(StudentCourse studentCourse);
   void updateStudent(Student student);
   void updateStudentCourse(StudentCourse studentCourse);
-  void updateApplicationStatus(int courseId, ApplicationStatus status);
+  int updateApplicationStatus(int courseId, ApplicationStatus status);
 }
