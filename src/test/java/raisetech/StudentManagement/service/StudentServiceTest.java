@@ -116,7 +116,7 @@ class StudentServiceTest {
     verify(repository).updateStudentCourse(course);
   }
   @Test
-  void 申込状況を更新できること() {
+  void 申込状況更新_リポジトリの処理が適切に呼び出せている事() {
     StudentCourse course = new StudentCourse();
     course.setStudentId(1);
 
