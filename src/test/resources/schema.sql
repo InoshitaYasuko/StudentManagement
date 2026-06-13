@@ -21,5 +21,6 @@ CREATE TABLE IF NOT EXISTS students
     course_name varchar(100) NOT NULL,
     start_date date NOT NULL,
     end_date date DEFAULT NULL,
+    application_status VARCHAR(50),
     PRIMARY KEY (id)
     );

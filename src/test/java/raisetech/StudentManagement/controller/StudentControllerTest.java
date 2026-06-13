@@ -25,6 +25,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
@@ -222,5 +223,41 @@ class StudentControllerTest {
         .andExpect(content().string(
             org.hamcrest.Matchers.containsString("コース名は必須です")
         ));
+  }
+
+  @Test
+  void 申込状況の更新ができること() throws Exception {
+    String json = """
+        {
+          "status": "TAKING"
+        }
+        """;
+
+    mockMvc.perform(
+            patch("/course/1/status")
+                .contentType("application/json")
+                .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content().string("コースの申込状況を更新しました"));
+
+    verify(service, times(1))
+        .updateApplicationStatus(
+            1,
+            ApplicationStatus.TAKING
+        );
+  }
+  @Test
+  void 不正な申込状況の場合は400エラーになること () throws Exception {
+    String json = """
+      {
+        "status": "TEST"
+      }
+      """;
+
+    mockMvc.perform(
+            patch("/course/1/status")
+                .contentType("application/json")
+                .content(json))
+        .andExpect(status().isBadRequest());
   }
 }

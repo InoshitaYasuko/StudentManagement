@@ -19,7 +19,7 @@ class StudentConverterTest {
     student.setId("1");
 
     StudentCourse course = new StudentCourse();
-    course.setStudentId("1");
+    course.setStudentId(1);
 
     List<StudentDetail> result = converter.convertStudentDetails(
         List.of(student),
@@ -38,7 +38,7 @@ class StudentConverterTest {
     student.setId("1");
 
     StudentCourse course = new StudentCourse();
-    course.setStudentId("999");
+    course.setStudentId(999);
 
     List<StudentDetail> result = converter.convertStudentDetails(
         List.of(student),
@@ -53,10 +53,10 @@ class StudentConverterTest {
     student.setId("1");
 
     StudentCourse course1 = new StudentCourse();
-    course1.setStudentId("1");
+    course1.setStudentId(1);
 
     StudentCourse course2 = new StudentCourse();
-    course2.setStudentId("1");
+    course2.setStudentId(1);
 
     List<StudentDetail> result = converter.convertStudentDetails(
         List.of(student),

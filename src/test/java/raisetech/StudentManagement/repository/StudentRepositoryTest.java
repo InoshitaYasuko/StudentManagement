@@ -8,8 +8,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
+import raisetech.StudentManagement.domain.StudentSearchCondition;
 
 @MybatisTest
 class StudentRepositoryTest {
@@ -68,7 +70,7 @@ class StudentRepositoryTest {
   @Test
   void コース情報の登録が行えること(){
     StudentCourse course = new StudentCourse();
-    course.setStudentId("1");
+    course.setStudentId(1);
     course.setCourseName("Javaコース");
     course.setStartDate(LocalDate.now());
     course.setEndDate(LocalDate.now().plusMonths(3));
@@ -99,5 +101,15 @@ class StudentRepositoryTest {
     List<StudentCourse> updatedCourses = sut.findStudentCourseByStudentId(1);
 
     assertThat(updatedCourses.get(0).getCourseName()).isEqualTo("更新後コース");
+  }
+  @Test
+  void 申込状況で受講生検索ができること(){
+    StudentSearchCondition condition = new StudentSearchCondition();
+    condition.setApplicationStatus(ApplicationStatus.TAKING);
+
+    List<Student> actual = sut.findStudentsByCondition(condition);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual).isNotEmpty();
   }
 }
