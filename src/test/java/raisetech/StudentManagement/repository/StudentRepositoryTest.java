@@ -121,6 +121,6 @@ class StudentRepositoryTest {
 
     assertThat(actual)
         .extracting(Student::getId)
-        .contains("2");
+        .contains("1");
   }
 }
