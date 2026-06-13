@@ -112,4 +112,15 @@ class StudentRepositoryTest {
     assertThat(actual).isNotNull();
     assertThat(actual).isNotEmpty();
   }
+  @Test
+  void 申込状況が受講中の受講生で検索できること(){
+    StudentSearchCondition condition = new StudentSearchCondition();
+    condition.setApplicationStatus(ApplicationStatus.TAKING);
+
+    List<Student> actual = sut.findStudentsByCondition(condition);
+
+    assertThat(actual)
+        .extracting(Student::getId)
+        .contains("2");
+  }
 }
