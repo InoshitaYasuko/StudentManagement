@@ -1,26 +1,25 @@
 package raisetech.StudentManagement.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import raisetech.StudentManagement.controller.converter.ApplicationStatusRequest;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.domain.StudentSearchCondition;
 import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -31,7 +30,7 @@ import raisetech.StudentManagement.service.StudentService;
 @RestController
 public class StudentController {
 
-  private StudentService service;
+  private final StudentService service;
 
   @Autowired
   public StudentController(StudentService service) {
@@ -45,7 +44,7 @@ public class StudentController {
    */
   @Operation(summary = "一覧検索", description = "受講生の一覧を検索します")
   @GetMapping("/studentList")
-  public List<StudentDetail> getStudentList() throws TestException {
+  public List<StudentDetail> getStudentList() {
     return service.searchStudentList();
   }
   @GetMapping("/exception")
@@ -53,6 +52,11 @@ public class StudentController {
     throw new TestException
         ("現在、このAPIは利用できません。URLは「studentList」ではなく、「students」を利用してください");
 }
+  @Operation(summary = "条件検索", description = "条件付きで受講生を検索します")
+  @GetMapping("/student")
+  public List<StudentDetail> search(StudentSearchCondition condition) {
+    return service.searchStudentByCondition(condition);
+  }
 
   /**
    * 受講生詳細検索です。 IDに紐づく任意の受講生の情報を取得します。
@@ -74,7 +78,7 @@ public class StudentController {
     return service.searchStudent(id);
   }
   @Operation(summary = "ID未入力エラー", description = "IDが未入力の時に発生するエラーです")
-  @GetMapping("/student")
+  @GetMapping("/student/error")
   public void getStudentEmpty() {
     throw new IllegalArgumentException("IDが未入力です");
   }
@@ -114,5 +118,29 @@ public class StudentController {
   public ResponseEntity<String> updateStudent(@Valid @RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
+  }
+
+  /**
+   * 申込機能
+   *
+   * @param courseId
+   * @param request
+   */
+  @Operation(summary = "申込状況更新", description = "コースの申込状況を更新します")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "申込状況を更新しました"),
+      @ApiResponse(responseCode = "400", description = "申込状況が不正ステータスです")
+  })
+  @PatchMapping("/course/{courseId}/status")
+  public ResponseEntity<String> updateApplicationStatus(
+      @PathVariable int courseId,
+      @RequestBody ApplicationStatusRequest request){
+
+    System.out.println("courseId=" + courseId);
+    System.out.println("status=" + request.getStatus());
+
+   service.updateApplicationStatus(courseId, request.getStatus());
+
+   return ResponseEntity.ok("コースの申込状況を更新しました");
   }
 }

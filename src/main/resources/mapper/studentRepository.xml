@@ -16,7 +16,46 @@
   </select>
   <!-- 受講生IDに紐づく受講生コース情報検索 -->
   <select id="findStudentCourseByStudentId" parameterType="int" resultType="raisetech.StudentManagement.data.StudentCourse">
-    SELECT * FROM students_courses WHERE student_id = #{studentId}
+    SELECT * FROM students_courses WHERE student_id = #{value}
+  </select>
+  <!-- 様々な条件で情報検索 -->
+  <select id="findStudentsByCondition"
+    parameterType="raisetech.StudentManagement.domain.StudentSearchCondition"
+    resultType="raisetech.StudentManagement.data.Student">
+    SELECT DISTINCT s.*
+    FROM students s
+    LEFT JOIN students_courses sc
+    ON s.id = sc.student_id
+    <where>
+      s.is_deleted = FALSE
+      <if test="gender != null and gender != ''">
+        AND gender = #{gender}
+      </if>
+      <if test="fullName != null and fullName != ''">
+        AND full_name LIKE CONCAT('%', #{fullName}, '%')
+      </if>
+      <if test="age != null">
+        AND age = #{age}
+      </if>
+      <if test="email != null and email != ''">
+        AND email LIKE CONCAT('%', #{email}, '%')
+      </if>
+      <if test="city != null and city != ''">
+        AND city = #{city}
+      </if>
+      <if test="courseName != null and courseName != ''">
+        AND sc.course_name LIKE CONCAT('%', #{courseName}, '%')
+      </if>
+      <if test="startDate != null">
+        AND sc.start_date &gt;= #{startDate}
+      </if>
+      <if test="endDate != null">
+        AND sc.end_date &lt;= #{endDate}
+      </if>
+      <if test="applicationStatus != null">
+        AND sc.application_status = #{applicationStatus}
+      </if>
+    </where>
   </select>
   <!-- 受講生新規登録 -->
   <insert id="insertStudent" useGeneratedKeys="true" keyProperty="id">
@@ -28,9 +67,9 @@
   <!--  受講生コース情報登録 -->
   <insert id="insertStudentCourse">
     INSERT INTO students_courses
-    (student_id, course_name, start_date, end_date)
+    (student_id, course_name, start_date, end_date, application_status)
     VALUES
-    (#{studentId}, #{courseName}, #{startDate}, #{endDate})
+    (#{studentId}, #{courseName}, #{startDate}, #{endDate}, #{applicationStatus})
   </insert>
   <!--  受講生情報更新 -->
   <update id="updateStudent">
@@ -54,13 +93,21 @@
     SET
     course_name = #{courseName},
     start_date = #{startDate},
-    end_date = #{endDate}
+    end_date = #{endDate},
+    application_status = #{applicationStatus}
     WHERE id = #{id}
   </update>
-  <!-- 申込機能 -->
-  <update id="updateApplicationStatus">
+  <!-- 申込機能情報 -->
+  <update id="updateApplicationStatus" parameterType="map">
     UPDATE students_courses
-    SET application_staus = #{staus}
+    SET application_status = #{status}
     WHERE id = #{courseId}
   </update>
+  <select id="findCourseById"
+    parameterType="int"
+    resultType="raisetech.StudentManagement.data.StudentCourse">
+    SELECT *
+    FROM students_courses
+    WHERE id = #{courseId}
+  </select>
 </mapper>
