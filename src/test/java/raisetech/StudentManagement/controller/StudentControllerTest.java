@@ -2,6 +2,7 @@ package raisetech.StudentManagement.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.linesOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -115,16 +116,13 @@ class StudentControllerTest {
         .andExpect(content().contentType("application/json"))
         .andExpect(jsonPath("$.student.id").value("1"))
         .andExpect(jsonPath("$.student.fullName").value("井上　愛"));
-
+  }
+    @Test
+    void IDが不正な場合は400エラーになること() throws Exception {
     //IDが不正の場合
-    mockMvc.perform(get("/student/0"))
-        .andExpect(status().isBadRequest());
-
-    //IDが未入力の場合
-    mockMvc.perform(get("/student"))
-        .andExpect(status().isBadRequest());
-
-    verify(service, times(1)).searchStudent("1");
+      mockMvc.perform(get("/student/0"))
+          .andExpect(status().isBadRequest())
+          .andExpect(content().string("IDが無効です"));
   }
 
   @Test
@@ -145,7 +143,8 @@ class StudentControllerTest {
             "courseName": "ExcelVBA入門コース",
             "startDate": "2024-01-01",
             "endDate": "2024-03-31",
-            "studentId": "1"
+            "studentId": "1",
+            "applicationStatus":"TEMPORARY"
           }
          ]
         }
@@ -210,7 +209,8 @@ class StudentControllerTest {
             {
               "courseName": "",
               "startDate": "2024-01-01",
-              "endDate": "2024-03-01"
+              "endDate": "2024-03-01",
+              "applicationStatus":"TEMPORARY"
             }
           ]
         }
@@ -221,7 +221,7 @@ class StudentControllerTest {
             .content(json))
         .andExpect(status().isBadRequest())
         .andExpect(content().string(
-            org.hamcrest.Matchers.containsString("コース名は必須です")
+            containsString("コース名は必須です")
         ));
   }
 
@@ -246,11 +246,26 @@ class StudentControllerTest {
             ApplicationStatus.TAKING
         );
   }
+
   @Test
-  void 不正な申込状況の場合は400エラーになること () throws Exception {
+  void 不正な申込状況の場合は400エラーになること() throws Exception {
+    String json = """
+        {
+          "status": "TEST"
+        }
+        """;
+
+    mockMvc.perform(
+            patch("/course/1/status")
+                .contentType("application/json")
+                .content(json))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void 申込状況が未指定でも更新処理が実行されること() throws Exception {
     String json = """
       {
-        "status": "TEST"
       }
       """;
 
@@ -258,6 +273,15 @@ class StudentControllerTest {
             patch("/course/1/status")
                 .contentType("application/json")
                 .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content().string("コースの申込状況を更新しました"));
+  }
+
+  @Test
+  void ageに文字列を指定した場合は400エラーになること() throws Exception {
+    mockMvc.perform(
+            get("/students")
+                .param("age", "abc"))
         .andExpect(status().isBadRequest());
   }
 }

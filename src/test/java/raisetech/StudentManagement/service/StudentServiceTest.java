@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.data.ApplicationStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -52,7 +53,7 @@ class StudentServiceTest {
     verify(converter, times(1)).convertStudentDetails(studentList, studentCourseList);
   }
   @Test
-  void 受講生詳細検索_ID指定で検索できる事(){
+  void 受講生詳細検索_ID指定で検索できる事() {
     Student student = new Student();
     List<StudentCourse> courses = new ArrayList<>();
 
@@ -81,7 +82,7 @@ class StudentServiceTest {
     verify(repository).insertStudentCourse(course);
   }
   @Test
-  void 受講生登録_コースに初期値が設定される事(){
+  void 受講生登録_コースに初期値が設定される事() {
     Student student = new Student();
     student.setId("1");
 
@@ -99,7 +100,7 @@ class StudentServiceTest {
     assertEquals(course.getStartDate().plusYears(1), course.getEndDate());
   }
   @Test
-  void 受講生情報更新_リポジトリの処理が適切に呼び出せている事(){
+  void 受講生情報更新_リポジトリの処理が適切に呼び出せている事() {
     Student student = new Student();
     student.setId("1");
     StudentCourse course = new StudentCourse();
@@ -113,5 +114,27 @@ class StudentServiceTest {
 
     verify(repository).updateStudent(student);
     verify(repository).updateStudentCourse(course);
+  }
+  @Test
+  void 申込状況更新_リポジトリの処理が適切に呼び出せている事() {
+    StudentCourse course = new StudentCourse();
+    course.setStudentId(1);
+
+    when(repository.findCourseById(1))
+        .thenReturn(course);
+
+    when(repository.findStudentById(1))
+        .thenReturn(new Student());
+
+    when(repository.findStudentCourseByStudentId(1))
+        .thenReturn(new ArrayList<>());
+
+    sut.updateApplicationStatus(
+        1,
+        ApplicationStatus.COMPLETED);
+
+    verify(repository).updateApplicationStatus(
+        1,
+        ApplicationStatus.COMPLETED);
   }
 }
