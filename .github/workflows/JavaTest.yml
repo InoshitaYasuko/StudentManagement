@@ -59,3 +59,23 @@ jobs:
           [Unit]
           Description = StudentManagement App
 
+          [Service]
+          ExecStart = java -jar ${DEST_PATH}
+          EnvironmentFile = /etc/sysconfig/StudentManagement
+          Restart = no
+          Type = simple
+          User = ec2-user
+          Group = ec2-user
+          SuccessExecStatus = 143
+
+          [Install]
+          WantedBy = multi-user.target
+          EOL
+          fi
+
+          sudo systemctl daemon-reload
+          if sudo systemctl status StudentManagement 2>&1 | grep "Active: active (running)" ; them
+            sudo systemctl restart StudentManagement
+          else
+            sudo systemctl  start StudentManagement
+          fi
