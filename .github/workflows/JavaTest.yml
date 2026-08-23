@@ -8,7 +8,7 @@ on:
 
 env:
   EC2_USER: 'ec2-user'
-  EC2_HOST: '35.77.90.91'
+  EC2_HOST: '18.183.192.51'
   SRC_PATH: 'build/libs/*.jar'
   DEST_PATH: '/home/ec2-user/StudentManagement.jar'
 
@@ -66,7 +66,7 @@ jobs:
           Type = simple
           User = ec2-user
           Group = ec2-user
-          SuccessExecStatus = 143
+          SuccessExitStatus = 143
 
           [Install]
           WantedBy = multi-user.target
